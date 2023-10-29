@@ -1,0 +1,4 @@
+/* put your own styles to customize and override the theme */
+form#form-search input, form#form-search select {
+    text-transform: capitalize;
+}
