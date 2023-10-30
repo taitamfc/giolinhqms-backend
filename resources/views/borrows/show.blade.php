@@ -10,7 +10,7 @@
         </nav>
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Phiếu Mượn #{{ $item->id }} </h1>
-            <a title="Xuất phiếu" class="btn btn-primary">
+            <a title="Xuất phiếu" class="btn btn-primary" href="{{  route('export_borrow',$user->id) }}">
                 <i class='fas fa-file-alt'></i>
                 <span class="ml-1">Xuất Phiếu Báo</span>
             </a>
