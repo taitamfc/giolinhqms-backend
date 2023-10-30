@@ -198,12 +198,12 @@
                                 </td>
 
                                 <td>
-                                        <a class="btn btn-sm btn-icon btn-secondary"
+                                        <a title="Xuất phiếu" class="btn btn-sm btn-icon btn-secondary"
                                                     href="{{  route('export_borrow',$user->id) }}">
                                                     <i class="fa-solid fa fa-file"></i>
                                         </a>
                                     @if (Auth::user()->hasPermission('Borrow_view'))
-                                        <a class="btn btn-sm btn-icon btn-secondary"
+                                        <a title="Xem" class="btn btn-sm btn-icon btn-secondary"
                                             href="{{ route('borrows.show', $item->id) }}">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
@@ -211,7 +211,7 @@
                                     <span class="sr-only">Edit</span>
                                     @if (Auth::user()->hasPermission('Borrow_update'))
                                         @if ($item->approved != 1)
-                                            <a href="{{ route('borrows.edit', $item->id) }}"
+                                            <a title="Xóa" href="{{ route('borrows.edit', $item->id) }}"
                                                 class="btn btn-sm btn-icon btn-secondary">
                                                 <i class="fa fa-pencil-alt"></i>
                                                 <span class="sr-only">Remove</span>
