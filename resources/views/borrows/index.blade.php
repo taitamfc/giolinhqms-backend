@@ -211,10 +211,9 @@
                                     <span class="sr-only">Edit</span>
                                     @if (Auth::user()->hasPermission('Borrow_update'))
                                         @if ($item->approved != 1)
-                                            <a title="Xóa" href="{{ route('borrows.edit', $item->id) }}"
+                                            <a title="Sửa" href="{{ route('borrows.edit', $item->id) }}"
                                                 class="btn btn-sm btn-icon btn-secondary">
                                                 <i class="fa fa-pencil-alt"></i>
-                                                <span class="sr-only">Remove</span>
                                             </a>
                                         @endif
                                     @endif
@@ -223,7 +222,7 @@
                                         @if ($item->approved != 1)
                                             <form action="{{ route('borrows.destroy', $item->id) }}" style="display:inline"
                                                 method="post">
-                                                <button onclick="return confirm('Xóa {{ $item->name }} ?')"
+                                                <button title="Xóa" onclick="return confirm('Xóa {{ $item->name }} ?')"
                                                     class="btn btn-sm btn-icon btn-secondary">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
