@@ -18,7 +18,7 @@ use App\Http\Controllers\ForgotPasswordController;
 */
 
 Route::get('/', function () {
-    return view('includes.Login');
+    return view('includes.login');
 });
 
 //Group
