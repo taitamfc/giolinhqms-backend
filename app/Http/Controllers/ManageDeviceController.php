@@ -6,6 +6,7 @@ use App\Models\BorrowDevice;
 use App\Models\Room;
 use App\Models\Device;
 use App\Models\User;
+use App\Models\Borrow;
 use Illuminate\Support\Facades\DB;
 
 use App\Services\Interfaces\BorrowDeviceServiceInterface;
@@ -31,11 +32,11 @@ class ManageDeviceController extends Controller
     public function index(Request $request)
     {
             $this->authorize('viewAny', BorrowDevice::class);
-            $items = $this->borrowdeviceService->paginate(20,$request);
+            // $items = $this->borrowdeviceService->paginate(20,$request);
+            $items = Borrow::orderBy('id','desc')->paginate(20);
             $nests = Nest::all();
             $users = User::orderBy('name')->get();
             // Load thông tin người mượn thông qua bảng borrows
-            $items->load('borrow.user');
             $changeStatus = [
                 0 => 'Chưa trả',
                 1=> 'Đã trả'
