@@ -10,9 +10,9 @@
         </nav>
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Phiếu Mượn #{{ $item->id }} </h1>
-            <a href="{{ route('export_PDF', $item->id) }}" class="btn btn-primary ">
+            <a title="Xuất phiếu" class="btn btn-primary">
                 <i class='fas fa-file-alt'></i>
-                <span class="ml-1">Xuất File PDF</span>
+                <span class="ml-1">Xuất Phiếu Báo</span>
             </a>
         </div>
     </header>

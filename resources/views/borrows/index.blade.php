@@ -198,10 +198,7 @@
                                 </td>
 
                                 <td>
-                                        <a title="Xuất phiếu" class="btn btn-sm btn-icon btn-secondary"
-                                                    href="{{  route('export_borrow',$user->id) }}">
-                                                    <i class="fa-solid fa fa-file"></i>
-                                        </a>
+                                        
                                     @if (Auth::user()->hasPermission('Borrow_view'))
                                         <a title="Xem" class="btn btn-sm btn-icon btn-secondary"
                                             href="{{ route('borrows.show', $item->id) }}">
