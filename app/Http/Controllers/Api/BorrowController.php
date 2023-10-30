@@ -198,7 +198,7 @@ class BorrowController extends Controller
         $error_html = '<table class="table table-bordered">';
             $error_html .= '<tr>';
                 $error_html .= '<td>Tên thiết bị</td>';
-                $error_html .= '<td>Ngày mượn</td>';
+                $error_html .= '<td>Ngày dạy</td>';
                 $error_html .= '<td>Buổi</td>';
                 $error_html .= '<td>Tiết</td>';
                 $error_html .= '<td>SL</td>';

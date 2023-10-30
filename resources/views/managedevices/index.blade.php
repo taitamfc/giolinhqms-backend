@@ -8,15 +8,15 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">
-                    <a href="{{ route('borrowdevices.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang
+                    <a href="{{ route('managedevices.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang
                         Chủ</a>
                 </li>
             </ol>
         </nav>
         <div class="d-md-flex align-items-md-start">
-            <h1 class="page-title mr-sm-auto">Quản Lý Thiết Bị Mượn</h1>
+            <h1 class="page-title mr-sm-auto">Sổ Quản Lý Thiết Bị</h1>
             <div class="btn-toolbar">
-                {{-- borrowdevices.testHTML --}}
+                {{-- managedevices.testHTML --}}
                 {{-- export.single.page --}}
                 <a href="{{ route('export.single.page') }}?{{ $current_url }}" id="exportExcel" class="btn btn-primary mr-2">
                     <i class="fa-solid fa fa-plus"></i>
@@ -31,14 +31,14 @@
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('borrowdevices.index') }}">Tất Cả</a>
+                        <a class="nav-link active" href="{{ route('managedevices.index') }}">Tất Cả</a>
                     </li>
                 </ul>
             </div>
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('borrowdevices.index') }}" method="GET" id="form-search">
+                        <form action="{{ route('managedevices.index') }}" method="GET" id="form-search">
                             <div class="row">
                                 <div class="col">
                                     <label>Tên giáo viên</label>

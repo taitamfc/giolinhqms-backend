@@ -49,8 +49,8 @@
                     <div class="col-lg-4">
 
                         <div class="form-group">
-                            <label for="tf1">Ngày mượn<abbr name="Trường bắt buộc">*</abbr></label> <input
-                                name="borrow_date" type="date" class="form-control" id="" placeholder="Nhập ngày mượn"
+                            <label for="tf1">Ngày dạy<abbr name="Trường bắt buộc">*</abbr></label> <input
+                                name="borrow_date" type="date" class="form-control" id="" placeholder="Nhập ngày dạy"
                                 value="{{ old('borrow_date') }}">
                             <small id="" class="form-text text-muted"></small>
                             @if ($errors->any())
@@ -138,7 +138,7 @@
                                         <th>Tiết PCCT</th>
                                         <th>Lớp</th>
                                         <th>Tiết TKB</th>
-                                        <th>Ngày dạy</th>
+                                        <th>Ngày trả</th>
                                         <th></th>
                                     </tr>
                                 </thead>

@@ -92,6 +92,7 @@ Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 Route::get('/export-pdf/{id}', [\App\Http\Controllers\PDFController::class, 'exportPDF'])->name('export_PDF');
 Route::get('/exportBook/{id}', [\App\Http\Controllers\ExportBookController::class, 'export'])->name('exportBook');
 Route::get('/exportExcelBook/{id}', [\App\Http\Controllers\ExportUserHistoryBook::class, 'export_history_book'])->name('export_history_book');
+Route::get('/exportExcelBorrow/{id}', [\App\Http\Controllers\ExportBorrow::class, 'export_borrow'])->name('export_borrow');
 
 // BorrowDevice
 Route::prefix('borrowdevices')->group(function () {
@@ -102,6 +103,17 @@ Route::prefix('borrowdevices')->group(function () {
 });
 Route::resource('borrowdevices',\App\Http\Controllers\BorrowDevicesController::class);
 Route::get('test',[\App\Http\Controllers\BorrowDevicesController::class,'testHTML'])->name('borrowdevices.testHTML');
+
+// ManageDevice
+Route::prefix('managedevices')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\ManageDeviceController::class, 'trash'])->name('managedevices.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\ManageDeviceController::class, 'restore'])->name('managedevices.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\ManageDeviceController::class, 'forceDelete'])->name('managedevices.forceDelete');
+    Route::get('/export-single-page', [\App\Http\Controllers\ManageDeviceController::class, 'exportSinglePage'])->name('export.single.page');
+});
+Route::resource('managedevices',\App\Http\Controllers\ManageDeviceController::class);
+Route::get('test',[\App\Http\Controllers\ManageDeviceController::class,'testHTML'])->name('managedevices.testHTML');
+
 
 // DeviceType
 Route::prefix('devicetypes')->group(function () {

@@ -41,7 +41,7 @@
 
                                     </tr>
                                     <tr>
-                                        <td> Ngày mượn </td>
+                                        <td> Ngày dạy </td>
                                         <td> {{ date('d/m/Y', strtotime($item->borrow_date)) }} </td>
                                     </tr>
                                     <!-- Trạng thái -->

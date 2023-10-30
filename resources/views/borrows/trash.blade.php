@@ -39,7 +39,7 @@
                             </div>
                             <div class="col">
                                 <input name="searchBorrow_date" class="form-control" type="date"
-                                    placeholder=" ngày mượn..."
+                                    placeholder=" ngày dạy..."
                                     value="{{ $request->input('searchBorrow_date') }}" />
                             </div>
                             <div class="col">
@@ -87,7 +87,7 @@
                         <tr>
                             <th>STT</th>
                             <th>Tên </th>
-                            <th>Ngày mượn</th>
+                            <th>Ngày dạy</th>
                             <th>Tình trạng</th>
                             <th>Xét duyệt</th>
                             <th>Chức Năng</th>

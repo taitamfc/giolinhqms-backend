@@ -58,7 +58,7 @@
                         <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Ngày mượn</th>
+                                <th>Ngày dạy</th>
                                 <th>Số lượng</th>
                                 <th>Tình trạng duyệt</th>
                             </tr>

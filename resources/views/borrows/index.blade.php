@@ -68,15 +68,15 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label>Ngày mượn từ</label>
+                                    <label>Ngày dạy từ</label>
                                     <input name="searchBorrow_date_from" value="{{ request('searchBorrow_date_from') }}"
-                                        class="form-control" type="date" placeholder="Ngày mượn..." />
+                                        class="form-control" type="date" placeholder="Ngày dạy..." />
                                 </div>
 
                                 <div class="col">
-                                    <label>Ngày mượn đến</label>
+                                    <label>Ngày dạy đến</label>
                                     <input name="searchBorrow_date_to" value="{{ request('searchBorrow_date_to') }}"
-                                        class="form-control" type="date" placeholder="Ngày mượn..." />
+                                        class="form-control" type="date" placeholder="Ngày dạy..." />
                                 </div>
                                 <div class="col">
                                     <label>Năm học</label>
@@ -159,7 +159,7 @@
                             <th>STT</th>
                             <th>Người dùng</th>
                             <th>Ngày tạo phiếu</th>
-                            <th>Ngày mượn</th>
+                            <th>Ngày dạy</th>
                             <th>Tình trạng</th>
                             <th>Xét duyệt</th>
                             <th>Chức năng</th>
@@ -198,13 +198,16 @@
                                 </td>
 
                                 <td>
+                                        <a class="btn btn-sm btn-icon btn-secondary"
+                                                    href="{{  route('export_borrow',$user->id) }}">
+                                                    <i class="fa-solid fa fa-plus"></i>
+                                        </a>
                                     @if (Auth::user()->hasPermission('Borrow_view'))
                                         <a class="btn btn-sm btn-icon btn-secondary"
                                             href="{{ route('borrows.show', $item->id) }}">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                     @endif
-
                                     <span class="sr-only">Edit</span>
                                     @if (Auth::user()->hasPermission('Borrow_update'))
                                         @if ($item->approved != 1)

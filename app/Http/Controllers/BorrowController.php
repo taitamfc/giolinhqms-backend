@@ -12,6 +12,8 @@ use App\Models\Nest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BorrowExport;
 
 
 use App\Services\Interfaces\BorrowServiceInterface;
@@ -219,5 +221,6 @@ class BorrowController extends Controller
 
         return redirect()->back()->with('success', 'Cập nhật thành công');
     }
+
 
 }

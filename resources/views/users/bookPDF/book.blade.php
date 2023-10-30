@@ -135,8 +135,8 @@
                         <th scope="col">Lớp</th>
                         <th scope="col">Tiết TKB</th>
                         <th scope="col">Trạng thái</th>
-                        <th scope="col">Ngày mượn</th>
                         <th scope="col">Ngày dạy</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -153,7 +153,7 @@
                             <td align="center">{{ $borrowDevice->lecture_number }}</td>
                             <td align="center">{{ $changeStatus[$borrowDevice->status] }}</td>
                             <td align="center">{{ $borrowDevice->borrow_date }}</td>
-                            <td align="center">{{ $borrowDevice->return_date }}</td>
+
                         </tr>
                         @if (($key + 1) % 10 == 0 && $key + 1 != count($borrowDevices))
                 </tbody>
@@ -177,8 +177,8 @@
                         <th scope="col">Lớp</th>
                         <th scope="col">Tiết TKB</th>
                         <th scope="col">Trạng thái</th>
-                        <th scope="col">Ngày mượn</th>
                         <th scope="col">Ngày dạy</th>
+                        
                     </tr>
                 </thead>
                 <tbody>

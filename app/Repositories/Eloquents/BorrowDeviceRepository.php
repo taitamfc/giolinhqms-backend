@@ -45,7 +45,7 @@ class BorrowDeviceRepository extends EloquentRepository implements  BorrowDevice
         }
         if ($request->searchBorrow_date) {
             $query->whereHas('borrow', function ($query) use ($request) {
-                $query->where('borrow_date', '=', $request->searchBorrow_date );
+                $query->where('borrow_date', '>=', $request->searchBorrow_date );
             });
         }
 
@@ -54,7 +54,6 @@ class BorrowDeviceRepository extends EloquentRepository implements  BorrowDevice
                 $query->where('borrow_date','<=', $request->searchBorrow_date_to );
             });
         }
-
         if($request->searchStatus !== null){
             $query->where('status',$request->searchStatus);
         }

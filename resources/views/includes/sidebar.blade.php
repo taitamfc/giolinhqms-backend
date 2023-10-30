@@ -125,6 +125,15 @@
                             </li>
                         </ul><!-- /child menu -->
                     </li>
+                    <li class="menu-item has-child">
+                        <a href="#" class="menu-link"> <span class="menu-icon"><i class="fas fa-book"></i></span>
+                            <span class="menu-text">Sổ Quản Lý Thiết Bị </span></a> <!-- child menu -->
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <a href="{{ route('managedevices.index') }}" class="menu-link">Danh Sách</a>
+                            </li>
+                        </ul><!-- /child menu -->
+                    </li>
                     @if (Auth::user()->hasPermission('Group_viewAny'))
                         <li class="menu-item has-child">
                             <a href="#" class="menu-link"><span class="menu-icon oi oi-person"></span>

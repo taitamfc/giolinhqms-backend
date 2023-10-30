@@ -80,9 +80,9 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="tf1">Ngày mượn</label>
+                                <label for="tf1">Ngày dạy</label>
                                 <input type="date" name="borrow_date" value="{{ $item->borrow_date }}"
-                                    class="form-control" placeholder="Nhập ngày mượn">
+                                    class="form-control" placeholder="Nhập ngày dạy">
                                 @if ($errors->has('borrow_date'))
                                     <p style="color:red">{{ $errors->first('borrow_date') }}</p>
                                 @endif
