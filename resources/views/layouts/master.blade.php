@@ -35,10 +35,10 @@
       <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
       <![endif]-->
         <!-- .app-header -->
-        @include('includes.Header')
+        @include('includes.header')
         <!-- /.app-header -->
         <!-- .app-aside -->
-        @include('includes.Sidebar')
+        @include('includes.sidebar')
        <!-- /.app-aside -->
         <!-- .app-main -->
         <main class="app-main">
