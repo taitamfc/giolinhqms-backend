@@ -127,7 +127,7 @@
                     </li>
                     <li class="menu-item has-child">
                         <a href="#" class="menu-link"> <span class="menu-icon"><i class="fas fa-book"></i></span>
-                            <span class="menu-text">Sổ Quản Lý Thiết Bị </span></a> <!-- child menu -->
+                            <span class="menu-text">Sổ Mượn Thiết Bị </span></a> <!-- child menu -->
                         <ul class="menu">
                             <li class="menu-item">
                                 <a href="{{ route('managedevices.index') }}" class="menu-link">Danh Sách</a>
