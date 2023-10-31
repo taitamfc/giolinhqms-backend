@@ -14,7 +14,7 @@
             </ol>
         </nav>
         <div class="d-md-flex align-items-md-start">
-            <h1 class="page-title mr-sm-auto">Sổ Quản Lý Thiết Bị</h1>
+            <h1 class="page-title mr-sm-auto">Sổ Mượn Thiết Bị</h1>
             <div class="btn-toolbar">
                 {{-- managedevices.testHTML --}}
                 {{-- export.single.page --}}

@@ -34,9 +34,10 @@ class ExportUserHistoryBook extends Controller
 
         // Lấy sheet hiện tại
         $sheet = $spreadsheet->getActiveSheet();
+         $sheet->setCellValue('H2', 'Môn dạy');
         $sheet->setCellValue('D2', $user->name);
-        $sheet->setCellValue('H2', '');
-        $sheet->setCellValue('K2', $user->nest->name);
+        $sheet->setCellValue('E2', $user->name);
+        $sheet->setCellValue('L2', $user->nest->name);
         $sheet->getStyle('K2')->getFont()->setSize(14);
 
         // dd($borrows);
@@ -66,7 +67,7 @@ class ExportUserHistoryBook extends Controller
 
 
         $spreadsheet->setActiveSheetIndex(0);
-        $newFilePath = public_path('storage/uploads/so-muon-v2' . time() . '.xlsx');
+        $newFilePath = public_path('storage/uploads/so-muon-'.$id.'.xlsx');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($newFilePath);

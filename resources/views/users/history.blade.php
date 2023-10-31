@@ -25,12 +25,12 @@
             </ol>
         </nav>
         <div class="d-md-flex align-items-md-start">
-            <h1 class="page-title mr-sm-auto">Xem lịch sử mượn thiết bị của giáo viên : {{ $user->name }}</h1>
+            <h1 class="page-title mr-sm-auto">Lịch sử mượn: {{ $user->name }}</h1>
             <div class="btn-toolbar">
-                    <a href="{{ route('exportBook',$user->id) }}" class="btn btn-primary mr-2">
+                    <!-- <a href="{{ route('exportBook',$user->id) }}" class="btn btn-primary mr-2">
                         <i class="fa-solid fa fa-plus"></i>
                         <span class="ml-1">Xuất Sổ PDF</span>
-                    </a>
+                    </a> -->
                     <a href="{{ route('export_history_book',$user->id) }}" class="btn btn-primary mr-2">
                         <i class="fa-solid fa fa-plus"></i>
                         <span class="ml-1">Xuất Sổ Excel</span>
