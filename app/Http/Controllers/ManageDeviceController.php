@@ -33,6 +33,8 @@ class ManageDeviceController extends Controller
     {
             $this->authorize('viewAny', BorrowDevice::class);
             $items = $this->borrowdeviceService->paginate(20,$request);
+            // $items = BorrowDevice::groupBy([])->paginate(10);
+            dd($items->toArray());
             $nests = Nest::all();
             $users = User::orderBy('name')->get();
             // Load thông tin người mượn thông qua bảng borrows

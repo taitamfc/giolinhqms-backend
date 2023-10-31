@@ -14,7 +14,7 @@
             </ol>
         </nav>
         <div class="d-md-flex align-items-md-start">
-            <h1 class="page-title mr-sm-auto">Sổ Mượn Thiết Bị</h1>
+            <h1 class="page-title mr-sm-auto">Sổ Quản Lý Thiết Bị</h1>
             <div class="btn-toolbar">
                 {{-- managedevices.testHTML --}}
                 {{-- export.single.page --}}
@@ -156,36 +156,33 @@
                             <th>PCCT</th>
                             <th>Lớp</th>
                             <th>TKB</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo phiếu</th>
                             <th>Ngày dạy</th>
+                            <th>Ngày trả</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($items as $key => $item)
-                            <?php
-                            $the_devices = '';
-                            if( $item->devices->count()  ){
-                                $the_devices = $item->devices->pluck('name','id')->toArray();
-                                $the_devices = implode(' + ', $the_devices);
-                            }
-                            ?>
                             <tr>
+                                <td>{{ ++$key }}</td>
+                                <td>{{ $item->borrow->user->name ?? '(Phiếu mượn đã bị xóa)' }}</td>
+
+                                <td>{{ $item->device->name ?? '(Không xác định)' }}</td>
+                                <td>{{ $item->lesson_name }}</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>{{ $item->session }}</td>
+                                <td>{{ $item->lecture_name }}</td>
+                                <td>{{ $item->room ? $item->room->name : '' }}</td>
+                                <td>{{ $item->lecture_number }}</td>
+                                <td>{{ $changeStatus[$item->status] ?? '(Không xác định)' }}</td>
                                 <td>
-                                    <a title="Xem phiếu mượn" href="{{ route('borrows.show', $item->id) }}">
-                                        Mã: {{ $item->id }}
-                                    </a>
+                                    {{ optional($item->borrow)->created_at ? date('d/m/Y H:i:s', strtotime($item->borrow->created_at)) : '(Không xác định)' }}
                                 </td>
-                                <td>{{ $item->user->name ?? '(Phiếu mượn đã bị xóa)' }}</td>
-                                <td width="300">{{  $the_devices }}</td>
-                                <td width="300">{{ $item->the_devices->count() ? $item->the_devices->first()->lesson_name : '' }}</td>
-                                <td>{{ $item->the_devices->count() ? $item->the_devices->first()->quantity : '' }}</td>
-                                <td>{{ $item->the_devices->count() ? $item->the_devices->first()->session : '' }}</td>
-                                <td>{{ $item->the_devices->count() ? $item->the_devices->first()->lecture_name : '' }}</td>
-                                <td>{{ $item->the_devices->count() && $item->the_devices->first()->room ? $item->the_devices->first()->room->name : ''}}</td>
-                                <td>{{ $item->the_devices->count() ? $item->the_devices->first()->lecture_number : '' }}</td>
-                                <!-- <td>{{ $changeStatus[$item->status] ?? '(Không xác định)' }}</td> -->
                                 <td>
-                                    {{ $item->borrow_date ? date('d/m/Y', strtotime($item->borrow_date)) : '(Không xác định)' }}
+                                    {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không xác định)' }}
                                 </td>
+                                <td>{{ $item->return_date ? date('d/m/Y', strtotime($item->return_date)) : '' }}</td>
                             </tr>
                         @endforeach
                     </tbody>
