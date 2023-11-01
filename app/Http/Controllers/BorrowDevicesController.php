@@ -143,6 +143,8 @@ class BorrowDevicesController extends Controller
             $query->whereHas('borrow', function ($subQuery) {
                 $subQuery->where('user_id', request('searchTeacher'));
             });
+            $user_id = request('searchTeacher');
+            $user = User::find($user_id);
         }else{
             return redirect()->route('borrowdevices.index')->with('error', 'Vui lòng chọn giáo viên');
         }
@@ -189,6 +191,33 @@ class BorrowDevicesController extends Controller
             }
         }
         $BorrowDevices = $query->get();
+        $items = [];
+        foreach( $BorrowDevices as $BorrowDevice ){
+            $items[$BorrowDevice->borrow_date.'-'.$BorrowDevice->room_id.'-'.$BorrowDevice->lesson_name.'-'.$BorrowDevice->session.'-'.$BorrowDevice->lecture_number][] = $BorrowDevice;
+        }
+        $BorrowDevices = [];
+        foreach( $items as $item ){
+            if( empty($item[0]) ){
+                continue;
+            }
+
+            $device_names = [];
+            foreach( $item as $device_item ){
+                $device_names[] = $device_item->device->name;
+            }
+            $device_names = implode(' + ', $device_names);
+            $BorrowDevices[] = [
+                'borrow_date' => date('d/m/Y',strtotime($item[0]->borrow_date)),
+                'return_date' => date('d/m/Y',strtotime($item[0]->return_date)),
+                'created_at' => date('d/m/Y',strtotime($item[0]->created_at)),
+                'device_name' => $device_names,
+                'quantity' => $item[0]->quantity,
+                'lecture_name' => $item[0]->lecture_name,
+                'lesson_name' => $item[0]->lesson_name,
+                'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
+                'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
+            ];
+        }
 
         // Đường dẫn đến mẫu Excel đã có sẵn
         $templatePath = public_path('uploads/so-muon-v2.xlsx');
@@ -201,7 +230,7 @@ class BorrowDevicesController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('H2', 'Môn dạy');
         $sheet->setCellValue('B4', 'Ngày dạy');
-        $borrowerName = $BorrowDevices->isNotEmpty() ? $BorrowDevices->first()->borrow->user->name : '';
+        $borrowerName = $user->name;
         $sheet->setCellValue('E2', $borrowerName);
         $sheet->getStyle('K2')->getFont()->setSize(14);
 
@@ -209,30 +238,27 @@ class BorrowDevicesController extends Controller
         $stt = 1; // Khởi tạo biến STT bên ngoài vòng lặp
 
         foreach ($BorrowDevices as $key => $item) {
-            $borrowDate = Carbon::parse($item->borrow->borrow_date);
-            
             $sheet->setCellValueExplicit('A' . $index, $key + 1, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->getStyle('A' . $index)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
-            $sheet->setCellValue('B' . $index, $borrowDate->format('d/m/Y'));
-            $sheet->setCellValue('C' . $index, Carbon::parse($item->return_date)->format('d/m/Y'));
-            $sheet->setCellValue('D' . $index, $item->id);
-            $sheet->setCellValue('E' . $index, Carbon::parse($item->created_at)->format('d/m/Y'));
-            $sheet->setCellValue('F' . $index, $item->device ? $item->device->name : '');
-            $sheet->setCellValue('G' . $index, $item->quantity);
-            $sheet->setCellValue('H' . $index, $item->lecture_name);
-            $sheet->setCellValue('I' . $index, $item->lesson_name);
-            $sheet->setCellValue('J' . $index, $item->room ? $item->room->name : '');
+            $sheet->setCellValue('B' . $index, $item['borrow_date']);
+            $sheet->setCellValue('C' . $index, $item['return_date']);
+            $sheet->setCellValue('D' . $index, $key + 1);
+            $sheet->setCellValue('E' . $index, $item['created_at']);
+            $sheet->setCellValue('F' . $index, $item['device_name']);
+            $sheet->setCellValue('G' . $index, $item['quantity']);
+            $sheet->setCellValue('H' . $index, $item['lecture_name']);
+            $sheet->setCellValue('I' . $index, $item['lesson_name']);
+            $sheet->setCellValue('J' . $index, $item['room_name']);
             $sheet->setCellValue('K' . $index, '');
             $sheet->getColumnDimension('L')->setWidth(50); 
-            $user = $item->borrow->user;
-            $sheet->setCellValue('L' . $index, $user ? $user->name : '');
+            $sheet->setCellValue('L' . $index, $item['user_name']);
 
             $index++;
             $stt++;
         }
 
         $spreadsheet->setActiveSheetIndex(0);
-        $newFilePath = public_path('storage/uploads/so-muon-.xlsx');
+        $newFilePath = public_path('storage/uploads/so-muon-'.$user_id.'-'.date("Y-m-d").'.xlsx');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($newFilePath);
