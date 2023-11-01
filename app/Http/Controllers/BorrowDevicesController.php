@@ -222,7 +222,7 @@ class BorrowDevicesController extends Controller
         // dd( $BorrowDevices);
 
         // Đường dẫn đến mẫu Excel đã có sẵn
-        $templatePath = public_path('uploads/so-muon-v2.xlsx');
+        $templatePath = public_path('uploads/export.xlsx');
 
         // Tạo một Spreadsheet từ mẫu
         $reader = IOFactory::createReader("Xlsx");
