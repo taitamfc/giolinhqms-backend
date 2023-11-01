@@ -109,7 +109,7 @@ Route::prefix('managedevices')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\ManageDeviceController::class, 'trash'])->name('managedevices.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\ManageDeviceController::class, 'restore'])->name('managedevices.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\ManageDeviceController::class, 'forceDelete'])->name('managedevices.forceDelete');
-    Route::get('/export-single-page', [\App\Http\Controllers\ManageDeviceController::class, 'exportSinglePage'])->name('export.single.page');
+    //Route::get('/export-single-page', [\App\Http\Controllers\ManageDeviceController::class, 'exportSinglePage'])->name('export.single.page');
 });
 Route::resource('managedevices',\App\Http\Controllers\ManageDeviceController::class);
 Route::get('test',[\App\Http\Controllers\ManageDeviceController::class,'testHTML'])->name('managedevices.testHTML');
