@@ -18,10 +18,10 @@
             <div class="btn-toolbar">
                 {{-- managedevices.testHTML --}}
                 {{-- export.single.page --}}
-                <a href="{{ route('export.single.page') }}?{{ $current_url }}" id="exportExcel" class="btn btn-primary mr-2">
+                <!-- <a href="{{ route('export.single.page') }}?{{ $current_url }}" id="exportExcel" class="btn btn-primary mr-2">
                     <i class="fa-solid fa fa-plus"></i>
                     <span class="ml-1">Xuất Excel</span>
-                </a>
+                </a> -->
 
             </div>
         </div>
