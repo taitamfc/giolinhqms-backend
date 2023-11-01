@@ -207,7 +207,7 @@ class BorrowDevicesController extends Controller
             }
             $device_names = implode(' + ', $device_names);
             $BorrowDevices[] = [
-                'borrow_date' => date('d/m/Y',strtotime($item[0]->borrow_date)),
+                'borrow_date' => date('d/m/Y',strtotime($item[0]->borrow->borrow_date)),
                 'return_date' => date('d/m/Y',strtotime($item[0]->return_date)),
                 'created_at' => date('d/m/Y',strtotime($item[0]->created_at)),
                 'device_name' => $device_names,
@@ -216,8 +216,10 @@ class BorrowDevicesController extends Controller
                 'lesson_name' => $item[0]->lesson_name,
                 'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
                 'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
+                'nest_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->nest->name : '',
             ];
         }
+        // dd( $BorrowDevices);
 
         // Đường dẫn đến mẫu Excel đã có sẵn
         $templatePath = public_path('uploads/so-muon-v2.xlsx');
@@ -233,6 +235,7 @@ class BorrowDevicesController extends Controller
         $borrowerName = $user->name;
         $sheet->setCellValue('E2', $borrowerName);
         $sheet->getStyle('K2')->getFont()->setSize(14);
+        $sheet->setCellValue('L2', $item[0]->borrow->user->nest->name);
 
         $index = 6;
         $stt = 1; // Khởi tạo biến STT bên ngoài vòng lặp
@@ -252,10 +255,11 @@ class BorrowDevicesController extends Controller
             $sheet->setCellValue('K' . $index, '');
             $sheet->getColumnDimension('L')->setWidth(50); 
             $sheet->setCellValue('L' . $index, $item['user_name']);
-
+            
             $index++;
             $stt++;
         }
+      
 
         $spreadsheet->setActiveSheetIndex(0);
         $newFilePath = public_path('storage/uploads/so-muon-'.$user_id.'-'.date("Y-m-d").'.xlsx');
