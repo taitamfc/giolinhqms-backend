@@ -135,6 +135,7 @@ class BorrowDevicesController extends Controller
 
    public function exportSinglePage()
     {
+        
         $query = BorrowDevice::query();
 
         // Kiểm tra xem các tham số tìm kiếm có tồn tại trong yêu cầu không
@@ -204,6 +205,9 @@ class BorrowDevicesController extends Controller
             $device_names = [];
             foreach( $item as $device_item ){
                 $device_names[] = $device_item->device->name;
+                if (empty($departmentName)) {
+                    $departmentName = $device_item->device->department->name;
+                }
             }
             $device_names = implode(' + ', $device_names);
             $BorrowDevices[] = [
@@ -212,14 +216,15 @@ class BorrowDevicesController extends Controller
                 'created_at' => date('d/m/Y',strtotime($item[0]->created_at)),
                 'device_name' => $device_names,
                 'quantity' => $item[0]->quantity,
-                'lecture_number' => $item[0]->lecture_number,
+                'lecture_name' => $item[0]->lecture_name,
                 'lesson_name' => $item[0]->lesson_name,
                 'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
                 'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
                 'nest_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->nest->name : '',
+                'department' => $departmentName, // Sử dụng giá trị đơn lẻ
             ];
         }
-        // dd( $BorrowDevices);
+        // dd($BorrowDevices);
 
         // Đường dẫn đến mẫu Excel đã có sẵn
         $templatePath = public_path('uploads/export.xlsx');
@@ -232,8 +237,10 @@ class BorrowDevicesController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('H2', 'Môn dạy');
         $sheet->setCellValue('B4', 'Ngày dạy');
+        $sheet->setCellValue('H4', 'Tiết PPCT');
         $borrowerName = $user->name;
         $sheet->setCellValue('E2', $borrowerName);
+        $sheet->setCellValue('I2',$departmentName);
         $sheet->getStyle('K2')->getFont()->setSize(14);
         $sheet->setCellValue('L2', $item[0]->borrow->user->nest->name);
 
@@ -249,7 +256,7 @@ class BorrowDevicesController extends Controller
             $sheet->setCellValue('E' . $index, $item['created_at']);
             $sheet->setCellValue('F' . $index, $item['device_name']);
             $sheet->setCellValue('G' . $index, $item['quantity']);
-            $sheet->setCellValue('H' . $index, $item['lecture_number']);
+            $sheet->setCellValue('H' . $index, $item['lecture_name']);
             $sheet->setCellValue('I' . $index, $item['lesson_name']);
             $sheet->setCellValue('J' . $index, $item['room_name']);
             $sheet->setCellValue('K' . $index, '');
