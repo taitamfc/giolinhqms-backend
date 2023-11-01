@@ -212,7 +212,7 @@ class BorrowDevicesController extends Controller
                 'created_at' => date('d/m/Y',strtotime($item[0]->created_at)),
                 'device_name' => $device_names,
                 'quantity' => $item[0]->quantity,
-                'lecture_name' => $item[0]->lecture_name,
+                'lecture_number' => $item[0]->lecture_number,
                 'lesson_name' => $item[0]->lesson_name,
                 'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
                 'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
@@ -249,7 +249,7 @@ class BorrowDevicesController extends Controller
             $sheet->setCellValue('E' . $index, $item['created_at']);
             $sheet->setCellValue('F' . $index, $item['device_name']);
             $sheet->setCellValue('G' . $index, $item['quantity']);
-            $sheet->setCellValue('H' . $index, $item['lecture_name']);
+            $sheet->setCellValue('H' . $index, $item['lecture_number']);
             $sheet->setCellValue('I' . $index, $item['lesson_name']);
             $sheet->setCellValue('J' . $index, $item['room_name']);
             $sheet->setCellValue('K' . $index, '');
