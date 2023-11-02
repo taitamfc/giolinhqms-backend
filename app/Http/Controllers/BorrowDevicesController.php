@@ -301,6 +301,7 @@ class BorrowDevicesController extends Controller
             return redirect()->route('borrowdevices.index')->with('error', 'Vui lòng chọn giáo viên');
         }else{
             $user = User::find(request('searchTeacher'));
+            $user_id = $user->id;
             $nestName = $user->nest->name;
             $departmentName = '';
         }
