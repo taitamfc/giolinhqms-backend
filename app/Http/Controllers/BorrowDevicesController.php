@@ -133,11 +133,8 @@ class BorrowDevicesController extends Controller
         }
     }
 
-   public function exportSinglePage()
-    {
+    private function _handleQuery(){
         $query = BorrowDevice::query();
-
-        // Kiểm tra xem các tham số tìm kiếm có tồn tại trong yêu cầu không
         if (request()->has('searchTeacher')) {
             // Sử dụng mối quan hệ để truy vấn dữ liệu từ bảng borrows
             $query->whereHas('borrow', function ($subQuery) {
@@ -145,17 +142,13 @@ class BorrowDevicesController extends Controller
             });
             $user_id = request('searchTeacher');
             $user = User::find($user_id);
-        }else{
-            return redirect()->route('borrowdevices.index')->with('error', 'Vui lòng chọn giáo viên');
         }
-
         if (request()->has('searchName')) {
             $query->where('device_id', request('searchName'));
         }
         if (request()->has('searchSession')) {
             $query->where('session', request('searchSession'));
         }
-
         if (request()->has('searchBorrow_date') && request()->has('searchBorrow_date_to')) {
             $start_date = Carbon::parse(request('searchBorrow_date'));
             $end_date = Carbon::parse(request('searchBorrow_date_to'));
@@ -191,6 +184,124 @@ class BorrowDevicesController extends Controller
             }
         }
         $BorrowDevices = $query->get();
+        return $BorrowDevices;
+    }
+    public function exportMultiPage(){
+        // Kiểm tra xem các tham số tìm kiếm có tồn tại trong yêu cầu không
+        $canExport = false;
+        if (request()->has('searchNest')) {
+            $canExport = true;
+        }else if (request()->has('searchBorrow_date') && request()->has('searchBorrow_date_to')) {
+            $canExport = true;
+        }
+
+        if( !$canExport ){
+            return redirect()->route('borrowdevices.index')->with('error', 'Vui lòng chọn tổ hoặc ngày dạy từ và ngày dạy đến');
+        }
+
+        $BorrowDevices = $this->_handleQuery();
+        $items = [];
+        foreach( $BorrowDevices as $BorrowDevice ){
+            if( empty($BorrowDevice->borrow->user) ){
+                continue;
+            }
+            $borrow_date = $BorrowDevice->borrow_date;
+            if( !$borrow_date ){
+                $borrow_date = $BorrowDevice->borrow->borrow_date;
+            }
+            $items[$BorrowDevice->borrow->user->id.'-'.$BorrowDevice->borrow->borrow_date.'-'.$BorrowDevice->room_id.'-'.$BorrowDevice->lesson_name.'-'.$BorrowDevice->session.'-'.$BorrowDevice->lecture_number][] = $BorrowDevice;
+        }
+        $BorrowDevices = [];
+        foreach( $items as $item ){
+            if( empty($item[0]) ){
+                continue;
+            }
+            $device_names = [];
+            foreach( $item as $device_item ){
+                $device_names[] = $device_item->device->name;
+                if (empty($departmentName)) {
+                    $departmentName = $device_item->device->department->name;
+                }
+            }
+            $device_names = implode(' + ', $device_names);
+            $BorrowDevices[] = [
+                'borrow_date' => $item[0]->borrow ? date('d/m/Y',strtotime($item[0]->borrow->borrow_date)) : '',
+                'return_date' => $item[0]->return_date ? date('d/m/Y',strtotime($item[0]->return_date)) : '',
+                'created_at' => $item[0]->return_date ? date('d/m/Y',strtotime($item[0]->created_at)) : '',
+                'device_name' => $device_names,
+                'quantity' => $item[0]->quantity,
+                'lecture_name' => $item[0]->lecture_name,
+                'lesson_name' => $item[0]->lesson_name,
+                'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
+                'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
+                'nest_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->nest->name : '',
+                'department' => $departmentName, // Sử dụng giá trị đơn lẻ
+            ];
+        }
+        // Đường dẫn đến mẫu Excel đã có sẵn
+        $templatePath = public_path('uploads/so-muon-thiet-thiet-bi-theo-to.xlsx');
+
+        // Tạo một Spreadsheet từ mẫu
+        $reader = IOFactory::createReader("Xlsx");
+        $spreadsheet = $reader->load($templatePath);
+
+        // Lấy sheet hiện tại
+        $sheet = $spreadsheet->getActiveSheet();
+        // Tổ
+        $borrowerName = '';
+        $nest = request('searchNest') ? Nest::find( request('searchNest') ) : '';
+        $borrowerName = $nest ? $nest->name : '';
+        $nestID = $nest ? $nest->id : 0;
+        $sheet->setCellValue('B2', $borrowerName);
+
+        // Ngày dạy từ
+        $dateStart = request('searchBorrow_date') ? date('d/m/Y',strtotime(request('searchBorrow_date'))) : '';
+        $sheet->setCellValue('F4', $dateStart);
+
+        $dateEnd = request('searchBorrow_date_to') ? date('d/m/Y',strtotime(request('searchBorrow_date_to'))) : '';
+        $sheet->setCellValue('I4', $dateEnd);
+
+        $index = 8;
+        $stt = 1; // Khởi tạo biến STT bên ngoài vòng lặp
+
+        foreach ($BorrowDevices as $key => $item) {
+            $sheet->setCellValueExplicit('A' . $index, $key + 1, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $sheet->getStyle('A' . $index)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
+            $sheet->setCellValue('B' . $index, $item['borrow_date']);
+            $sheet->setCellValue('C' . $index, $item['return_date']);
+            $sheet->setCellValue('D' . $index, $key + 1);
+            $sheet->setCellValue('E' . $index, $item['created_at']);
+            $sheet->setCellValue('F' . $index, $item['device_name']);
+            $sheet->setCellValue('G' . $index, $item['quantity']);
+            $sheet->setCellValue('H' . $index, $item['lecture_name']);
+            $sheet->setCellValue('I' . $index, $item['lesson_name']);
+            $sheet->setCellValue('J' . $index, $item['room_name']);
+            $sheet->setCellValue('K' . $index, '');
+            $sheet->getColumnDimension('L')->setWidth(50); 
+            $sheet->setCellValue('L' . $index, $item['user_name']);
+            
+            $index++;
+            $stt++;
+        }
+      
+
+        $spreadsheet->setActiveSheetIndex(0);
+        $newFilePath = public_path('storage/uploads/so-muon-theo-to-'.$nestID.'-'.date("Y-m-d").'.xlsx');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save($newFilePath);
+
+        return response()->download($newFilePath)->deleteFileAfterSend(true);
+    }
+    public function exportSinglePage()
+    {
+       
+        // Kiểm tra xem các tham số tìm kiếm có tồn tại trong yêu cầu không
+        if (!request()->has('searchTeacher')) {
+            return redirect()->route('borrowdevices.index')->with('error', 'Vui lòng chọn giáo viên');
+        }
+        
+        $BorrowDevices = $this->_handleQuery();
         $items = [];
         foreach( $BorrowDevices as $BorrowDevice ){
             $items[$BorrowDevice->borrow_date.'-'.$BorrowDevice->room_id.'-'.$BorrowDevice->lesson_name.'-'.$BorrowDevice->session.'-'.$BorrowDevice->lecture_number][] = $BorrowDevice;
@@ -200,27 +311,32 @@ class BorrowDevicesController extends Controller
             if( empty($item[0]) ){
                 continue;
             }
-
             $device_names = [];
             foreach( $item as $device_item ){
                 $device_names[] = $device_item->device->name;
+                if (empty($departmentName)) {
+                    $departmentName = $device_item->device->department->name;
+                }
             }
             $device_names = implode(' + ', $device_names);
             $BorrowDevices[] = [
-                'borrow_date' => date('d/m/Y',strtotime($item[0]->borrow_date)),
-                'return_date' => date('d/m/Y',strtotime($item[0]->return_date)),
-                'created_at' => date('d/m/Y',strtotime($item[0]->created_at)),
+                'borrow_date' => $item[0]->borrow ? date('d/m/Y',strtotime($item[0]->borrow->borrow_date)) : '',
+                'return_date' => $item[0]->return_date ? date('d/m/Y',strtotime($item[0]->return_date)) : '',
+                'created_at' => $item[0]->return_date ? date('d/m/Y',strtotime($item[0]->created_at)) : '',
                 'device_name' => $device_names,
                 'quantity' => $item[0]->quantity,
                 'lecture_name' => $item[0]->lecture_name,
                 'lesson_name' => $item[0]->lesson_name,
                 'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
                 'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
+                'nest_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->nest->name : '',
+                'department' => $departmentName, // Sử dụng giá trị đơn lẻ
             ];
         }
+        // dd($BorrowDevices);
 
         // Đường dẫn đến mẫu Excel đã có sẵn
-        $templatePath = public_path('uploads/so-muon-v2.xlsx');
+        $templatePath = public_path('uploads/export.xlsx');
 
         // Tạo một Spreadsheet từ mẫu
         $reader = IOFactory::createReader("Xlsx");
@@ -230,9 +346,12 @@ class BorrowDevicesController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('H2', 'Môn dạy');
         $sheet->setCellValue('B4', 'Ngày dạy');
+        $sheet->setCellValue('H4', 'Tiết PPCT');
         $borrowerName = $user->name;
         $sheet->setCellValue('E2', $borrowerName);
+        $sheet->setCellValue('I2',$departmentName);
         $sheet->getStyle('K2')->getFont()->setSize(14);
+        $sheet->setCellValue('L2', $item[0]->borrow->user->nest->name);
 
         $index = 6;
         $stt = 1; // Khởi tạo biến STT bên ngoài vòng lặp
@@ -252,10 +371,11 @@ class BorrowDevicesController extends Controller
             $sheet->setCellValue('K' . $index, '');
             $sheet->getColumnDimension('L')->setWidth(50); 
             $sheet->setCellValue('L' . $index, $item['user_name']);
-
+            
             $index++;
             $stt++;
         }
+      
 
         $spreadsheet->setActiveSheetIndex(0);
         $newFilePath = public_path('storage/uploads/so-muon-'.$user_id.'-'.date("Y-m-d").'.xlsx');

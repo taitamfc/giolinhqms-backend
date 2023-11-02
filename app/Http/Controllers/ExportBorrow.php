@@ -41,8 +41,9 @@ class ExportBorrow extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('C7', $user->name);
         $sheet->setCellValue('C8', $user->nest->name);
-        $sheet->setCellValue('D31', $user->name);
-        $sheet->setCellValue('C27', $newValue);
+        $sheet->setCellValue('D25', $user->name);
+        $sheet->setCellValue('C21', $newValue);
+        $sheet->setCellValue('C5', date('d/m/Y',strtotime($borrow->borrow_date)));
 
 
         // $sheet->setCellValue('B9', 'Tên TB cần sử dụng');

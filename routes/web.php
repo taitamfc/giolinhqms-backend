@@ -100,6 +100,7 @@ Route::prefix('borrowdevices')->group(function () {
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'restore'])->name('borrowdevices.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'forceDelete'])->name('borrowdevices.forceDelete');
     Route::get('/export-single-page', [\App\Http\Controllers\BorrowDevicesController::class, 'exportSinglePage'])->name('export.single.page');
+    Route::get('/export-multi-page', [\App\Http\Controllers\BorrowDevicesController::class, 'exportMultiPage'])->name('export.multi.page');
 });
 Route::resource('borrowdevices',\App\Http\Controllers\BorrowDevicesController::class);
 Route::get('test',[\App\Http\Controllers\BorrowDevicesController::class,'testHTML'])->name('borrowdevices.testHTML');
