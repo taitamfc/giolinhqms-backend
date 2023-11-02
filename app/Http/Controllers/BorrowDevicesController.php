@@ -299,6 +299,8 @@ class BorrowDevicesController extends Controller
         // Kiểm tra xem các tham số tìm kiếm có tồn tại trong yêu cầu không
         if (!request()->has('searchTeacher')) {
             return redirect()->route('borrowdevices.index')->with('error', 'Vui lòng chọn giáo viên');
+        }else{
+            $user = User::find(request('searchTeacher'));
         }
         
         $BorrowDevices = $this->_handleQuery();
