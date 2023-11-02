@@ -301,6 +301,8 @@ class BorrowDevicesController extends Controller
             return redirect()->route('borrowdevices.index')->with('error', 'Vui lòng chọn giáo viên');
         }else{
             $user = User::find(request('searchTeacher'));
+            $nestName = $user->nest->name;
+            $departmentName = '';
         }
         
         $BorrowDevices = $this->_handleQuery();
@@ -338,7 +340,7 @@ class BorrowDevicesController extends Controller
         // dd($BorrowDevices);
 
         // Đường dẫn đến mẫu Excel đã có sẵn
-        $templatePath = public_path('uploads/export.xlsx');
+        $templatePath = public_path('uploads/so-muon-giao-vien.xlsx');
 
         // Tạo một Spreadsheet từ mẫu
         $reader = IOFactory::createReader("Xlsx");
