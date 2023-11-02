@@ -20,7 +20,12 @@
                 {{-- export.single.page --}}
                 <a href="{{ route('export.single.page', request()->all()) }}" id="exportExcel" class="btn btn-primary mr-2">
                     <i class="fa-solid fa fa-plus"></i>
-                    <span class="ml-1">Xuất Excel</span>
+                    <span class="ml-1">Xuất Sổ Giáo Viên</span>
+                </a>
+
+                <a href="{{ route('export.multi.page', request()->all()) }}" id="exportExcel" class="btn btn-primary mr-2">
+                    <i class="fa-solid fa fa-plus"></i>
+                    <span class="ml-1">Xuất Sổ Theo Tổ | Thời Gian</span>
                 </a>
 
             </div>
