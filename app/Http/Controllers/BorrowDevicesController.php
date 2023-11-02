@@ -355,7 +355,7 @@ class BorrowDevicesController extends Controller
         $sheet->setCellValue('E2', $borrowerName);
         $sheet->setCellValue('I2',$departmentName);
         $sheet->getStyle('K2')->getFont()->setSize(14);
-        $sheet->setCellValue('L2', $item[0]->borrow->user->nest->name);
+        $sheet->setCellValue('L2', $nestName);
 
         $index = 6;
         $stt = 1; // Khởi tạo biến STT bên ngoài vòng lặp
