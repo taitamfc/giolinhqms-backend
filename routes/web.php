@@ -39,6 +39,8 @@ Route::prefix('users')->group(function () {
     Route::get('/trash', [UserController::class, 'trash'])->name('users.trash');
     Route::get('/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/force_destroy/{id}', [UserController::class, 'force_destroy'])->name('users.force_destroy');
+    Route::get('/getImport', [UserController::class, 'getImport'])->name('users.getImport');
+    Route::post('/import', [UserController::class, 'import'])->name('users.import');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users',\App\Http\Controllers\UserController::class);
@@ -118,6 +120,8 @@ Route::get('test',[\App\Http\Controllers\ManageDeviceController::class,'testHTML
 
 // DeviceType
 Route::prefix('devicetypes')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\DeviceTypeController::class, 'getImport'])->name('devicetypes.getImport');
+    Route::post('/import', [\App\Http\Controllers\DeviceTypeController::class, 'import'])->name('devicetypes.import');
     Route::get('/trash', [\App\Http\Controllers\DeviceTypeController::class, 'trash'])->name('devicetypes.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'restore'])->name('devicetypes.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'forceDelete'])->name('devicetypes.forceDelete');

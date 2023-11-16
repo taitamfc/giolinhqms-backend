@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\ImportUserRequest;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\Nest;
 use App\Models\User;
-use App\Models\Borrow
-;
+use App\Models\Borrow;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UsersImport;
+
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
 use Illuminate\Support\Facades\DB;
@@ -158,5 +161,17 @@ class UserController extends Controller
         $history = $queryBuilder->paginate(20);
         // dd($history);
         return view('users.history', compact('user', 'history', 'changeStatus', 'changeApproved'));
+    }
+    function getImport(){
+        return view('users.import');
+    }
+    public function import(ImportUserRequest $request) 
+    {
+        try {
+            Excel::import(new UsersImport, request()->file('importData'));
+            return redirect()->route('users.index')->with('success', 'Thêm thành công');
+        } catch (Exception $e) {
+            return redirect()->route('users.index')->with('error', 'Thêm thất bại');
+        }
     }
 }
