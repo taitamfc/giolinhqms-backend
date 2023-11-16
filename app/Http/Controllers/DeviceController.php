@@ -67,6 +67,7 @@ class DeviceController extends Controller
     public function show(string $id)
     {
         $item = $this->deviceService->find($id);
+        $this->authorize('view', $item);
         return view('devices.show', compact('item'));
     }
 

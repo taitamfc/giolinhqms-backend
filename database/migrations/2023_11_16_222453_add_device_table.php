@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('devices', function (Blueprint $table) {
+            $table->string('price')->nullable();
             $table->string('country')->nullable();
             $table->string('year_born')->nullable();
             $table->string('unit')->nullable();
@@ -27,7 +28,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('devices', function (Blueprint $table) {
-            $table->dropColumn('country');
+            $table->dropColumn('price');
             $table->dropColumn('year_born');
             $table->dropColumn('unit');
             $table->dropColumn('note');

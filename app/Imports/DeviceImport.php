@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Device;
 use App\Models\DeviceType;
 use App\Models\Department;
+use App\Models\Classify;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class DeviceImport implements ToModel
@@ -18,19 +19,23 @@ class DeviceImport implements ToModel
 
     function getDeviceType($name)
     {
-        $deviceType = DeviceType::where('name', $name)->first();
+        $deviceType = DeviceType::where('name', 'LIKE' , '%'.$name.'%')->first();
         return $deviceType ? $deviceType->id : null;
+    }
+    function getClassify($name)
+    {
+        $classify = Classify::where('name', 'LIKE' , '%'.$name.'%')->first();
+        return $classify ? $classify->id : null;
     }
 
     function getDepartmant($name)
     {
-        $department = Department::where('name', $name)->first();
+        $department = Department::where('name', 'LIKE' , '%'.$name.'%')->first();
         return $department ? $department->id : null;
     }
 
     public function model(array $row)
     {
-        // bỏ qua hàng tiêu đề
         if ($this->skipRows > 0) {
             $this->skipRows--;
             return null;
@@ -50,7 +55,7 @@ class DeviceImport implements ToModel
             'note'=>$row[7],
             'device_type_id'=>$this->getDeviceType($row[8]),
             'department_id'=>$this->getDepartmant($row[9]),
-            'classify'=>$row[10],
+            'classify_id'=>$this->getClassify($row[10]),
         ]);
     }
 }

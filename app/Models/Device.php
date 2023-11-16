@@ -11,7 +11,7 @@ class Device extends Model
     use HasFactory;
     protected $table ='devices';
     use HasFactory,SoftDeletes;
-    protected $fillable = ['id','device_type_id','name', 'quantity','image','department_id'];
+    protected $fillable = ['id','device_type_id','name', 'quantity','image','department_id','price','country','year_born','unit','note','classify_id'];
 
     public function borrows()
     {

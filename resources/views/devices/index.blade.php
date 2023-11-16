@@ -19,7 +19,7 @@
                 <span class="ml-1">Thêm Mới</span>
             </a>
             <a href="{{ route('devices.getImport') }}" class="btn btn-primary mr-2">
-                <i class="fa-solid fa fa-plus"></i>
+                <i class="fa-solid fa fa-arrow-down"></i>
                 <span class="ml-1">Import Excel</span>
             </a>
             @endif
@@ -126,6 +126,12 @@
                             <td>{{ $item->devicetype->name }}</td>
                             <td>{{ $item->department ? $item->department->name : null }}</td>
                             <td>
+                                @if (Auth::user()->hasPermission('Device_view'))
+                                <a title="Xem" class="btn btn-sm btn-icon btn-secondary"
+                                    href="{{ route('devices.show', $item->id) }}">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                @endif
                                 @if (Auth::user()->hasPermission('Device_delete'))
                                 <form action="{{ route('devices.destroy', $item->id) }}" style="display:inline"
                                     method="post">
