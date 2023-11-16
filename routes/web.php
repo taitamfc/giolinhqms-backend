@@ -145,6 +145,8 @@ Route::prefix('options')->group(function () {
 
 // Departments
 Route::prefix('departments')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\DepartmentController::class, 'getImport'])->name('departments.getImport');
+    Route::post('/import', [\App\Http\Controllers\DepartmentController::class, 'import'])->name('departments.import');
     Route::get('/trash', [\App\Http\Controllers\DepartmentController::class, 'trash'])->name('departments.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\DepartmentController::class, 'restore'])->name('departments.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DepartmentController::class, 'force_destroy'])->name('departments.force_destroy');

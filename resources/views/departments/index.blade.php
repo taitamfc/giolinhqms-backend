@@ -17,6 +17,10 @@
                         <i class="fa-solid fa fa-plus"></i>
                         <span class="ml-1">Thêm Mới</span>
                     </a>
+                    <a href="{{ route('departments.getImport') }}" class="btn btn-primary mr-2">
+                        <i class="fa-solid fa fa-plus"></i>
+                        <span class="ml-1">Import Excel</span>
+                    </a>
                 @endif
             </div>
         </div>
