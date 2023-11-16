@@ -40,9 +40,10 @@ class DeviceImport implements ToModel
             $this->skipRows--;
             return null;
         }
-        // bỏ qua nếu email trùng
-        $existingUser = Device::where('name', $row[1])->first();
-        if ($existingUser) {
+        // bỏ qua nếu tên thiết bị trùng
+        $existingUser = Device::with('classify')->where('name', $row[1])->first();
+
+        if ($existingUser->name == $row[1] && $existingUser->classify->name == $row[10]) {
             return null;
         }
         return new Device([

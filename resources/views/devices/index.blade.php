@@ -105,6 +105,7 @@
                             <th>Số lượng</th>
                             <th>Loại thiết bị</th>
                             <th>Bộ môn</th>
+                            <th>Phân loại</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
@@ -125,6 +126,7 @@
                             <td>{{ $item->quantity }}</td>
                             <td>{{ $item->devicetype->name }}</td>
                             <td>{{ $item->department ? $item->department->name : null }}</td>
+                            <td>{{ $item->classify ? $item->classify->name : null }}</td>
                             <td>
                                 @if (Auth::user()->hasPermission('Device_view'))
                                 <a title="Xem" class="btn btn-sm btn-icon btn-secondary"
