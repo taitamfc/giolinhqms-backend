@@ -8,7 +8,10 @@ use App\Http\Requests\UpdateNestRequest;
 use App\Services\Interfaces\NestServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+// use import & validate excel
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\NestImport;
+use App\Http\Requests\ImportNestRequest;
 
 class NestController extends Controller
 {
@@ -120,6 +123,18 @@ class NestController extends Controller
             return redirect()->route('nests.trash')->with('success', 'Xóa thành công!');
         } catch (err) {
             return redirect()->route('nests.trash')->with('error', 'Xóa không thành công!');
+        }
+    }
+    function getImport(){
+        return view('nests.import');
+    }
+    public function import(ImportNestRequest $request) 
+    {
+        try {
+            Excel::import(new NestImport, request()->file('importData'));
+            return redirect()->route('nests.index')->with('success', 'Thêm thành công');
+        } catch (Exception $e) {
+            return redirect()->route('nests.index')->with('error', 'Thêm thất bại');
         }
     }
 }

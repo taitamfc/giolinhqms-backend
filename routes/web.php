@@ -49,6 +49,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 //Device
 Route::prefix('devices')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\DeviceController::class, 'getImport'])->name('devices.getImport');
+    Route::post('/import', [\App\Http\Controllers\DeviceController::class, 'import'])->name('devices.import');
     Route::get('/trash', [\App\Http\Controllers\DeviceController::class, 'trash'])->name('devices.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\DeviceController::class, 'restore'])->name('devices.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceController::class, 'forceDelete'])->name('devices.forceDelete');
@@ -131,6 +133,8 @@ Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class)
 
 // Nest
 Route::prefix('nests')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\NestController::class, 'getImport'])->name('nests.getImport');
+    Route::post('/import', [\App\Http\Controllers\NestController::class, 'import'])->name('nests.import');
     Route::get('/trash', [\App\Http\Controllers\NestController::class, 'trash'])->name('nests.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\NestController::class, 'restore'])->name('nests.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\NestController::class, 'forceDelete'])->name('nests.forceDelete');
@@ -154,7 +158,3 @@ Route::prefix('departments')->group(function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('departments',\App\Http\Controllers\DepartmentController::class);
 });
-
-
-
-

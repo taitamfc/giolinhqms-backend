@@ -15,6 +15,10 @@ use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
+// use import & validate excel
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DeviceImport;
+use App\Http\Requests\ImportDeviceRequest;
 
 class DeviceController extends Controller
 {
@@ -145,6 +149,17 @@ class DeviceController extends Controller
             Log::error($e->getMessage());
             return redirect()->route('devices.trash')->with('error', 'Xóa không thành công!');
         }
-}
-
+    }
+    function getImport(){
+        return view('devices.import');
+    }
+    public function import(ImportDeviceRequest $request) 
+    {
+        try {
+            Excel::import(new DeviceImport, request()->file('importData'));
+            return redirect()->route('devices.index')->with('success', 'Thêm thành công');
+        } catch (Exception $e) {
+            return redirect()->route('devices.index')->with('error', 'Thêm thất bại');
+        }
+    }
 }

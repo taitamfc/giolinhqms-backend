@@ -6,16 +6,19 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DeviceTypeSeeder extends Seeder
+class ClassifySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('device_types')->insert([
+        DB::table('classify')->insert([
             [
-                'name' => 'Máy đo vận tốc'
+                'name' => 'Thiết bị',
+            ],
+            [
+                'name' => 'Tài sản',
             ],
         ]);
     }

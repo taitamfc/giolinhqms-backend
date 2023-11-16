@@ -34,4 +34,8 @@ class Device extends Model
     {
         return $this->belongsTo(Department::class);
     }
+    public function classify()
+    {
+        return $this->belongsTo(Classify::class,'classify_id','id');
+    }
 }
