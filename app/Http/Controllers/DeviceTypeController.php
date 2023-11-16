@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DeviceType;
 use App\Http\Requests\StoreDeviceTypeRequest;
 use App\Http\Requests\UpdateDeviceTypeRequest;
+use App\Http\Requests\ImportDeviceTypesRequest;
 use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
