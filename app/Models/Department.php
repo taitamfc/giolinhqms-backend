@@ -20,4 +20,8 @@ class Department extends Model
     {
         return $this->hasMany(Device::class);
     }
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
 }

@@ -15,6 +15,10 @@ use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
+// use import & validate excel
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DeviceImport;
+use App\Http\Requests\ImportDeviceRequest;
 
 class DeviceController extends Controller
 {
@@ -63,6 +67,7 @@ class DeviceController extends Controller
     public function show(string $id)
     {
         $item = $this->deviceService->find($id);
+        $this->authorize('view', $item);
         return view('devices.show', compact('item'));
     }
 
@@ -145,6 +150,19 @@ class DeviceController extends Controller
             Log::error($e->getMessage());
             return redirect()->route('devices.trash')->with('error', 'Xóa không thành công!');
         }
-}
-
+    }
+    function getImport(){
+        return view('devices.import');
+    }
+    public function import(ImportDeviceRequest $request) 
+    {
+        try {
+            // Excel::import(new DeviceImport, request()->file('importData'));
+            $import = new DeviceImport();
+            Excel::import($import, request()->file('importData'));
+            return redirect()->route('devices.getImport')->with('success', 'Thêm thành công');
+        } catch (Exception $e) {
+            return redirect()->route('devices.getImport')->with('error', 'Thêm thất bại');
+        }
+    }
 }

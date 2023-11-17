@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
             GroupRoleSeeder::class,
             BorrowDevicesSeeder::class,
             OptionSeeder::class,
+            ClassifySeeder::class,
+            DeviceTypeSeeder::class,
+            DeviceSeeder::class
         ]);
     }
 }

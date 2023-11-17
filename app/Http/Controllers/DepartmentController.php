@@ -8,6 +8,9 @@ use App\Services\Interfaces\DepartmentServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Http\Requests\StoreDepartmentRequest;
+use App\Http\Requests\ImportDepartmentsRequest;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DepartmentsImport;
 
 class DepartmentController extends Controller
 {
@@ -101,5 +104,16 @@ class DepartmentController extends Controller
             return redirect()->route('departments.trash')->with('error', 'Xóa không thành công!');
         }
     }
-
+    function getImport(){
+        return view('departments.import');
+    }
+    public function import(ImportDepartmentsRequest $request) 
+    {
+        try {
+            Excel::import(new DepartmentsImport, request()->file('importData'));
+            return redirect()->route('departments.getImport')->with('success', 'Thêm thành công');
+        } catch (Exception $e) {
+            return redirect()->route('departments.getImport')->with('error', 'Thêm thất bại');
+        }
+    }
 }

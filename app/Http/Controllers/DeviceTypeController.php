@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\DeviceType;
 use App\Http\Requests\StoreDeviceTypeRequest;
 use App\Http\Requests\UpdateDeviceTypeRequest;
+use App\Http\Requests\ImportDeviceTypesRequest;
 use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DeviceTypeImport;
 
 class DeviceTypeController extends Controller
 {
@@ -119,6 +122,18 @@ class DeviceTypeController extends Controller
             return redirect()->route('devicetypes.trash')->with('success', 'Xóa thành công!');
         } catch (err) {
             return redirect()->route('devicetypes.trash')->with('error', 'Xóa không thành công!');
+        }
+    }
+    function getImport(){
+        return view('devicetypes.import');
+    }
+    public function import(ImportDeviceTypesRequest $request) 
+    {
+        try {
+            Excel::import(new DeviceTypeImport, request()->file('importData'));
+            return redirect()->route('devicetypes.getImport')->with('success', 'Thêm thành công');
+        } catch (Exception $e) {
+            return redirect()->route('devicetypes.getImport')->with('error', 'Thêm thất bại');
         }
     }
 }

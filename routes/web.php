@@ -39,6 +39,8 @@ Route::prefix('users')->group(function () {
     Route::get('/trash', [UserController::class, 'trash'])->name('users.trash');
     Route::get('/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/force_destroy/{id}', [UserController::class, 'force_destroy'])->name('users.force_destroy');
+    Route::get('/getImport', [UserController::class, 'getImport'])->name('users.getImport');
+    Route::post('/import', [UserController::class, 'import'])->name('users.import');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users',\App\Http\Controllers\UserController::class);
@@ -47,12 +49,26 @@ Route::group(['middleware' => 'auth'], function () {
 
 //Device
 Route::prefix('devices')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\DeviceController::class, 'getImport'])->name('devices.getImport');
+    Route::post('/import', [\App\Http\Controllers\DeviceController::class, 'import'])->name('devices.import');
     Route::get('/trash', [\App\Http\Controllers\DeviceController::class, 'trash'])->name('devices.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\DeviceController::class, 'restore'])->name('devices.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceController::class, 'forceDelete'])->name('devices.forceDelete');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('devices',\App\Http\Controllers\DeviceController::class);
+});
+
+//Asset
+Route::prefix('assets')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\AssetController::class, 'getImport'])->name('assets.getImport');
+    Route::post('/import', [\App\Http\Controllers\AssetController::class, 'import'])->name('assets.import');
+    Route::get('/trash', [\App\Http\Controllers\AssetController::class, 'trash'])->name('assets.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\AssetController::class, 'restore'])->name('assets.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\AssetController::class, 'forceDelete'])->name('assets.forceDelete');
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('assets',\App\Http\Controllers\AssetController::class);
 });
 
 // Room
@@ -118,6 +134,8 @@ Route::get('test',[\App\Http\Controllers\ManageDeviceController::class,'testHTML
 
 // DeviceType
 Route::prefix('devicetypes')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\DeviceTypeController::class, 'getImport'])->name('devicetypes.getImport');
+    Route::post('/import', [\App\Http\Controllers\DeviceTypeController::class, 'import'])->name('devicetypes.import');
     Route::get('/trash', [\App\Http\Controllers\DeviceTypeController::class, 'trash'])->name('devicetypes.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'restore'])->name('devicetypes.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'forceDelete'])->name('devicetypes.forceDelete');
@@ -127,6 +145,8 @@ Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class)
 
 // Nest
 Route::prefix('nests')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\NestController::class, 'getImport'])->name('nests.getImport');
+    Route::post('/import', [\App\Http\Controllers\NestController::class, 'import'])->name('nests.import');
     Route::get('/trash', [\App\Http\Controllers\NestController::class, 'trash'])->name('nests.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\NestController::class, 'restore'])->name('nests.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\NestController::class, 'forceDelete'])->name('nests.forceDelete');
@@ -141,6 +161,8 @@ Route::prefix('options')->group(function () {
 
 // Departments
 Route::prefix('departments')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\DepartmentController::class, 'getImport'])->name('departments.getImport');
+    Route::post('/import', [\App\Http\Controllers\DepartmentController::class, 'import'])->name('departments.import');
     Route::get('/trash', [\App\Http\Controllers\DepartmentController::class, 'trash'])->name('departments.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\DepartmentController::class, 'restore'])->name('departments.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DepartmentController::class, 'force_destroy'])->name('departments.force_destroy');
@@ -148,7 +170,3 @@ Route::prefix('departments')->group(function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('departments',\App\Http\Controllers\DepartmentController::class);
 });
-
-
-
-
