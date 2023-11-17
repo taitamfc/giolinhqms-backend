@@ -169,9 +169,9 @@ class UserController extends Controller
     {
         try {
             Excel::import(new UsersImport, request()->file('importData'));
-            return redirect()->route('users.index')->with('success', 'Thêm thành công');
+            return redirect()->route('users.getImport')->with('success', 'Thêm thành công');
         } catch (Exception $e) {
-            return redirect()->route('users.index')->with('error', 'Thêm thất bại');
+            return redirect()->route('users.getImport')->with('error', 'Thêm thất bại');
         }
     }
 }

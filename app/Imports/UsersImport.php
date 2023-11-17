@@ -25,9 +25,8 @@ class UsersImport implements ToCollection
         if ($group) {
             return $group->id;
         }else {
-            $item = new Group();
-            $item->name = $name;
-            $item->save();
+            $data['name'] = $name;
+            $item = Group::create($data);
             return $item->id;
         }
     }
@@ -38,10 +37,9 @@ class UsersImport implements ToCollection
         if ($nest) {
             return $nest->id;
         }else {
-            $item = new Nest();
-            $item->name = $name;
-            $item->save();
-            return $item->id;
+           $data['name'] = $name;
+           $item = Nest::create($data);
+           return $item->id;
         };
     }
 

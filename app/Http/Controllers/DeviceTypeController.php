@@ -131,9 +131,9 @@ class DeviceTypeController extends Controller
     {
         try {
             Excel::import(new DeviceTypeImport, request()->file('importData'));
-            return redirect()->route('devicetypes.index')->with('success', 'Thêm thành công');
+            return redirect()->route('devicetypes.getImport')->with('success', 'Thêm thành công');
         } catch (Exception $e) {
-            return redirect()->route('devicetypes.index')->with('error', 'Thêm thất bại');
+            return redirect()->route('devicetypes.getImport')->with('error', 'Thêm thất bại');
         }
     }
 }

@@ -59,6 +59,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('devices',\App\Http\Controllers\DeviceController::class);
 });
 
+//Asset
+Route::prefix('assets')->group(function () {
+    Route::get('/getImport', [\App\Http\Controllers\AssetController::class, 'getImport'])->name('assets.getImport');
+    Route::post('/import', [\App\Http\Controllers\AssetController::class, 'import'])->name('assets.import');
+    Route::get('/trash', [\App\Http\Controllers\AssetController::class, 'trash'])->name('assets.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\AssetController::class, 'restore'])->name('assets.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\AssetController::class, 'forceDelete'])->name('assets.forceDelete');
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('assets',\App\Http\Controllers\AssetController::class);
+});
+
 // Room
 Route::prefix('rooms')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\RoomController::class, 'trash'])->name('rooms.trash');

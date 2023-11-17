@@ -111,9 +111,9 @@ class DepartmentController extends Controller
     {
         try {
             Excel::import(new DepartmentsImport, request()->file('importData'));
-            return redirect()->route('departments.index')->with('success', 'Thêm thành công');
+            return redirect()->route('departments.getImport')->with('success', 'Thêm thành công');
         } catch (Exception $e) {
-            return redirect()->route('departments.index')->with('error', 'Thêm thất bại');
+            return redirect()->route('departments.getImport')->with('error', 'Thêm thất bại');
         }
     }
 }

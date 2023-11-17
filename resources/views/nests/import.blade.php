@@ -32,7 +32,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12 mb-4">
+                    <div class="col-md-6 mb-4">
                         <label for="tf1">Chọn file<abbr name="Trường bắt buộc">*</abbr></label>
                         <input name="importData" type="file" class="form-control" id="" placeholder="Nhập tên tổ"
                             accept=".xls, .xlsx">

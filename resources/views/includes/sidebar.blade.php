@@ -75,14 +75,14 @@
                         </ul><!-- /child menu -->
                     </li><!-- /.menu-item -->
                     @endif
-                    @if (Auth::user()->hasPermission('Device_viewAny'))
+                    @if (Auth::user()->hasPermission('Asset_viewAny'))
                     <li class="menu-item has-child">
                         <a href="#" class="menu-link"><span class="menu-icon oi oi-browser"></span> <span
                                 class="menu-text">Tài sản</span> </a>
                         <!-- child menu -->
                         <ul class="menu">
                             <li class="menu-item">
-                                <a href="{{ route('devices.index') }}" class="menu-link">Danh Sách</a>
+                                <a href="{{ route('assets.index') }}" class="menu-link">Danh Sách</a>
                             </li>
                         </ul><!-- /child menu -->
                     </li><!-- /.menu-item -->

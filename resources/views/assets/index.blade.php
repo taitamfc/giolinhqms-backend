@@ -4,21 +4,21 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active">
-                <a href="{{ route('devices.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang
+                <a href="{{ route('assets.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang
                     Chủ</a>
             </li>
         </ol>
     </nav>
     <!-- <button type="button" class="btn btn-success btn-floated"><span class="fa fa-plus"></span></button> -->
     <div class="d-md-flex align-items-md-start">
-        <h1 class="page-title mr-sm-auto">Quản Lý Thiết Bị</h1>
+        <h1 class="page-title mr-sm-auto">Quản Lý Tài Sản</h1>
         <div class="btn-toolbar">
-            @if (Auth::user()->hasPermission('Device_create'))
-            <a href="{{ route('devices.create') }}" class="btn btn-primary mr-2">
+            @if (Auth::user()->hasPermission('Asset_create'))
+            <a href="{{ route('assets.create') }}" class="btn btn-primary mr-2">
                 <i class="fa-solid fa fa-plus"></i>
                 <span class="ml-1">Thêm Mới</span>
             </a>
-            <a href="{{ route('devices.getImport') }}" class="btn btn-primary mr-2">
+            <a href="{{ route('assets.getImport') }}" class="btn btn-primary mr-2">
                 <i class="fa-solid fa fa-arrow-down"></i>
                 <span class="ml-1">Import Excel</span>
             </a>
@@ -31,11 +31,11 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active " href="{{ route('devices.index') }}">Tất Cả</a>
+                    <a class="nav-link active " href="{{ route('assets.index') }}">Tất Cả</a>
                 </li>
-                @if (Auth::user()->hasPermission('Device_trash'))
+                @if (Auth::user()->hasPermission('Asset_trash'))
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('devices.trash') }}">Thùng Rác</a>
+                    <a class="nav-link" href="{{ route('assets.trash') }}">Thùng Rác</a>
                 </li>
                 @endif
             </ul>
@@ -43,8 +43,7 @@
         <div class="card-body">
             <div class="row mb-2">
                 <div class="col">
-                    <form action="{{ route('devices.index') }}" method="GET" id="form-search">
-
+                    <form action="{{ route('assets.index') }}" method="GET" id="form-search">
                         <div class="row">
                             <div class="col">
                                 <input name="searchName" value="{{ request('searchName') }}" class="form-control"
@@ -71,7 +70,7 @@
                             </div>
                             <div class="col">
                                 <select name="searchDepartment" class="form-control">
-                                    <option value=""> bộ môn...</option>
+                                    <option value=""> Bộ môn...</option>
                                     @foreach ($departments as $department)
                                     <option value="{{ $department->id }}"
                                         {{ $request->searchDepartment == $department->id ? 'selected' : '' }}>
@@ -113,11 +112,11 @@
                         <tr>
                             <td>{{ ++$key }}</td>
                             <td>
-                                <a href="{{ route('devices.edit', $item->id) }}" class="tile tile-img mr-1">
+                                <a href="{{ route('assets.edit', $item->id) }}" class="tile tile-img mr-1">
                                     <img class="img-fluid" src="{{ asset($item->image) }}" alt="">
                                 </a>
-                                @if (Auth::user()->hasPermission('Device_view'))
-                                <a href="{{ route('devices.edit', $item->id) }}">{{ $item->name }}</a>
+                                @if (Auth::user()->hasPermission('Asset_view'))
+                                <a href="{{ route('assets.edit', $item->id) }}">{{ $item->name }}</a>
                                 @else
                                 {{ $item->name }}
                                 @endif
@@ -126,14 +125,14 @@
                             <td>{{ $item->devicetype->name }}</td>
                             <td>{{ $item->department ? $item->department->name : null }}</td>
                             <td>
-                                @if (Auth::user()->hasPermission('Device_view'))
+                                @if (Auth::user()->hasPermission('Asset_view'))
                                 <a title="Xem" class="btn btn-sm btn-icon btn-secondary"
-                                    href="{{ route('devices.show', $item->id) }}">
+                                    href="{{ route('assets.show', $item->id) }}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 @endif
-                                @if (Auth::user()->hasPermission('Device_delete'))
-                                <form action="{{ route('devices.destroy', $item->id) }}" style="display:inline"
+                                @if (Auth::user()->hasPermission('Asset_delete'))
+                                <form action="{{ route('assets.destroy', $item->id) }}" style="display:inline"
                                     method="post">
                                     <button onclick="return confirm('Xóa {{ $item->name }} ?')"
                                         class="btn btn-sm btn-icon btn-secondary"><i
@@ -142,8 +141,8 @@
                                     @method('delete')
                                 </form>
                                 @endif
-                                @if (Auth::user()->hasPermission('Device_update'))
-                                <span class="sr-only">Edit</span></a> <a href="{{ route('devices.edit', $item->id) }}"
+                                @if (Auth::user()->hasPermission('Asset_update'))
+                                <span class="sr-only">Edit</span></a> <a href="{{ route('assets.edit', $item->id) }}"
                                     class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i>
                                     <span class="sr-only">Remove</span></a>
                                 @endif
@@ -152,7 +151,6 @@
                         @endforeach
                     </tbody>
                 </table>
-
                 <div style="float:right">
                     {{ $items->appends(request()->query())->links() }}
                 </div>

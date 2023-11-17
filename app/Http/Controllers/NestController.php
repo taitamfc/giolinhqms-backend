@@ -132,9 +132,9 @@ class NestController extends Controller
     {
         try {
             Excel::import(new NestImport, request()->file('importData'));
-            return redirect()->route('nests.index')->with('success', 'Thêm thành công');
+            return redirect()->route('nests.getImport')->with('success', 'Thêm thành công');
         } catch (Exception $e) {
-            return redirect()->route('nests.index')->with('error', 'Thêm thất bại');
+            return redirect()->route('nests.getImport')->with('error', 'Thêm thất bại');
         }
     }
 }

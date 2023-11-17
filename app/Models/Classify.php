@@ -12,4 +12,8 @@ class Classify extends Model
     function device(){
         return $this->hasMany(Device::class,'classify_id','id');
     }
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
 }
