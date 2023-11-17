@@ -13,6 +13,20 @@
 </header>
 
 <div class="page-section">
+    @if (session('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+    @endif
+    @if ($errors->any())
+    @foreach($errors->all() as $error)
+    @if ($error !== 'Vui lòng chọn file có đuôi .xlsx hoặc xls!')
+    <div class="alert alert-danger" role="alert">
+        {{ $error }} <br>
+    </div>
+    @endif
+    @endforeach
+    @endif
     <form method="post" action="{{ route('devicetypes.import') }}" enctype="multipart/form-data">
         @csrf
         <div class="card">
@@ -21,11 +35,27 @@
                     <div class="col-md-12 mb-4">
                         <label for="tf1">Chọn file<abbr name="Trường bắt buộc">*</abbr></label>
                         <input name="importData" type="file" class="form-control" id=""
-                            placeholder="Nhập tên thể loại thiết bị">
+                            placeholder="Nhập tên thể loại thiết bị" accept=".xls, .xlsx" />
                         <small id="" class="form-text text-muted"></small>
                         @error('importData')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
+                    </div>
+                    <div class="col-md-6 mb-4 border-left">
+                        <div class="form-check mt-4">
+                            <label for="tf1" class='mr-4'>Chọn định dạng file : <abbr
+                                    name="Trường bắt buộc">*</abbr></label>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled"
+                                checked disabled>
+                            <label class="form-check-label" for="flexCheckCheckedDisabled">
+                                Nhập file .xls(Excel)
+                            </label>
+                        </div>
+                        <div class="form-check mt-4">
+                            <label for="tf1" class='mr-4'>Tải dữ liệu mẫu : <abbr
+                                    name="Trường bắt buộc">*</abbr></label>
+                            <a href="{{ asset('storage/sample/device_type.xlsx') }}">Mẫu loại thiết bị.xlsx</a>
+                        </div>
                     </div>
                 </div>
                 <div class="form-actions">

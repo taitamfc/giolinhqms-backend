@@ -3,10 +3,14 @@
 namespace App\Imports;
 
 use App\Models\User;
+use App\Models\Group;
+use App\Models\Nest;
 use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Concerns\ToCollection;;
 
-class UsersImport implements ToModel
+class UsersImport implements ToCollection
 {
     /**
      * 
@@ -14,30 +18,69 @@ class UsersImport implements ToModel
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    private $skipRows = 1; // Số hàng tiêu đề cần bỏ qua
-
-    public function model(array $row)
+    function getGroup($name)
     {
-        // bỏ qua hàng tiêu đề
-        if ($this->skipRows > 0) {
-            $this->skipRows--;
-            return null;
+        $group = Group::where('name', 'LIKE' , '%'.$name.'%')->first();
+        // return $group ? $group->id : null;
+        if ($group) {
+            return $group->id;
+        }else {
+            $item = new Group();
+            $item->name = $name;
+            $item->save();
+            return $item->id;
         }
-        // bỏ qua nếu email trùng
-        $existingUser = User::where('email', $row[2])->first();
-        if ($existingUser) {
-            return null;
-        }
-        return new User([
-            'name'=>$row[1],
-            'email'=>$row[2], 
-            'password'=>Hash::make($row[3]),
-            'address'=>$row[4], 
-            'phone'=>$row[5], 
-            'gender'=>$row[6], 
-            'birthday' => date('Y-m-d', strtotime($row[7])),
-            'group_id'=>$row[8], 
-            'nest_id'=>$row[9], 
+    }
+    function getNest($name)
+    {
+        $nest = Nest::where('name', 'LIKE' , '%'.$name.'%')->first();
+        // return $group ? $group->id : null;
+        if ($nest) {
+            return $nest->id;
+        }else {
+            $item = new Nest();
+            $item->name = $name;
+            $item->save();
+            return $item->id;
+        };
+    }
+
+
+    public function collection(Collection $rows)
+    {
+        $rows->shift();
+        $rows->pop();
+        Validator::make($rows->toArray(), [
+            '*.1' => 'required',
+            '*.2' => 'required|unique:users,email',
+            '*.3' => 'required',
+            '*.4' => 'required',
+            '*.5' => 'required',
+            '*.8' => 'required',
+            '*.9' => 'required',
+        ],[
+            '*.1.required' => 'Tên người dùng :attribute là bắt buộc.',
+            '*.2.required' => 'Email người dùng :attribute là bắt buộc.',
+            '*.2.unique' => 'Email người dùng :attribute đã tồn tại.',
+            '*.3.required' => 'Mật khẩu người dùng :attribute là bắt buộc.',
+            '*.4.required' => 'Địa chỉ người dùng :attribute là bắt buộc.',
+            '*.5.required' => 'Số điện thoại người dùng :attribute là bắt buộc.',
+            '*.8.required' => 'Nhóm người dùng :attribute là bắt buộc.',
+            '*.9.required' => 'Tổ người dùng :attribute là bắt buộc.',
+        ])->validate();
+
+        foreach ($rows as $row) {
+            User::create([
+                'name'=>$row[1],
+                'email'=>$row[2], 
+                'password'=>Hash::make($row[3]),
+                'address'=>$row[4], 
+                'phone'=>$row[5], 
+                'gender'=>$row[6], 
+                'birthday' => date('Y-m-d', strtotime($row[7])),
+                'group_id'=>$this->getGroup($row[8]), 
+                'nest_id'=>$this->getNest($row[9]), 
             ]);
+        }
     }
 }

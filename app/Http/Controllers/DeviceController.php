@@ -157,10 +157,12 @@ class DeviceController extends Controller
     public function import(ImportDeviceRequest $request) 
     {
         try {
-            Excel::import(new DeviceImport, request()->file('importData'));
-            return redirect()->route('devices.index')->with('success', 'Thêm thành công');
+            // Excel::import(new DeviceImport, request()->file('importData'));
+            $import = new DeviceImport();
+            Excel::import($import, request()->file('importData'));
+            return redirect()->route('devices.getImport')->with('success', 'Thêm thành công');
         } catch (Exception $e) {
-            return redirect()->route('devices.index')->with('error', 'Thêm thất bại');
+            return redirect()->route('devices.getImport')->with('error', 'Thêm thất bại');
         }
     }
 }

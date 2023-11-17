@@ -22,13 +22,14 @@ class ImportDeviceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'importData' => 'required'
+            'importData' => 'required|mimes:xlsx,xls'
         ];
     }
     public function messages()
     {
         return  [
                 'importData.required' => 'Vui lòng chọn file!',
+                'importData.mimes' => 'Vui lòng chọn file có đuôi .xlsx hoặc xls!',
             ];
     }
 }
