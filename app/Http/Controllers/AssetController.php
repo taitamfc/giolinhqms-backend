@@ -12,8 +12,8 @@ use App\Http\Requests\UpdateAssetRequest;
 
 // use import & validate excel
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\DeviceImport;
-use App\Http\Requests\ImportDeviceRequest;
+use App\Imports\AssetImport;
+use App\Http\Requests\ImportAssetRequest;
 
 //use model
 use App\Models\DeviceType;
@@ -101,7 +101,7 @@ class AssetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, String $id)
+    public function update(UpdateAssetRequest $request, String $id)
     {
         $data = $request->except(['_token', '_method']);
         $asset = Asset::find($id);
@@ -117,7 +117,14 @@ class AssetController extends Controller
         try {
             $this->authorize('trash', Asset::class);
             $devicetypes = DeviceType::get();
-            $items = Asset::onlyTrashed()->paginate(20);
+            $items = Asset::onlyTrashed();
+            if ($request->searchDevicetype) {
+                $items->where('device_type_id',$request->searchDevicetype);
+            }
+            if ($request->searchName) {
+                $items->where('name','LIKE','%'.$request->searchName.'%');
+            }
+            $items = $items->paginate(20);
             return view('assets.trash', compact('items','devicetypes','request'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Thất bại!');
@@ -142,7 +149,6 @@ class AssetController extends Controller
             $asset = Asset::withTrashed()->find($id);
             $this->authorize('restore',$asset);
             $asset->restore();
-            alert()->success('Restore asset success');
             return redirect()->route('assets.index');
         } catch (\Exception $e) {
             // Log::error($e->getMessage());
@@ -150,7 +156,7 @@ class AssetController extends Controller
             return back();
         }
     }
-    function deleteforever(String $id){
+    function forceDelete(String $id){
         try {
             $asset = Asset::withTrashed()->find($id);
             $this->authorize('forceDelete',$asset);
@@ -168,17 +174,17 @@ class AssetController extends Controller
         }
     }
     function getImport(){
-        return view('devices.import');
+        return view('assets.import');
     }
-    public function import(ImportDeviceRequest $request) 
+    public function import(ImportAssetRequest $request) 
     {
         try {
             // Excel::import(new DeviceImport, request()->file('importData'));
-            $import = new DeviceImport();
+            $import = new AssetImport();
             Excel::import($import, request()->file('importData'));
-            return redirect()->route('devices.getImport')->with('success', 'Thêm thành công');
+            return redirect()->route('assets.getImport')->with('success', 'Thêm thành công');
         } catch (Exception $e) {
-            return redirect()->route('devices.getImport')->with('error', 'Thêm thất bại');
+            return redirect()->route('assets.getImport')->with('error', 'Thêm thất bại');
         }
     }
 }

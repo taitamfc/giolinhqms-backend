@@ -4,7 +4,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">
-                    <a href="{{ route('devices.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
+                    <a href="{{ route('assets.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
                 </li>
             </ol>
         </nav>
@@ -20,17 +20,17 @@
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ route('devices.index') }}">Tất Cả</a>
+                        <a class="nav-link " href="{{ route('assets.index') }}">Tất Cả</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active " href="{{ route('devices.trash') }}">Thùng Rác</a>
+                        <a class="nav-link active " href="{{ route('assets.trash') }}">Thùng Rác</a>
                     </li>
                 </ul>
             </div>
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('devices.trash') }}" method="GET" id="form-search">
+                        <form action="{{ route('assets.trash') }}" method="GET" id="form-search">
                             <div class="row">
                                 <div class="col">
                                     <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
@@ -82,7 +82,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <form action="{{ route('devices.forceDelete', $item->id) }}" style="display:inline"
+                                        <form action="{{ route('assets.forceDelete', $item->id) }}" style="display:inline"
                                             method="post">
                                             <button onclick="return confirm('Xóa vĩnh viễn {{ $item->name }} ?')"
                                                 class="btn btn-sm btn-icon btn-secondary"><i
@@ -91,7 +91,7 @@
                                             @method('delete')
                                         </form>
                                         <span class="sr-only">Edit</span></a> <a
-                                            href="{{ route('devices.restore', $item->id) }}"
+                                            href="{{ route('assets.restore', $item->id) }}"
                                             class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-trash-restore"></i>
                                             <span class="sr-only">Remove</span></a>
                                     </td>

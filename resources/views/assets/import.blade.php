@@ -4,12 +4,12 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active">
-                <a href="{{ route('devices.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Quản Lý
-                    Thiết Bị</a>
+                <a href="{{ route('assets.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Quản Lý
+                    Tài Sản</a>
             </li>
         </ol>
     </nav>
-    <h1 class="page-title">Thêm thiết bị</h1>
+    <h1 class="page-title">Thêm Tài Sản</h1>
 </header>
 
 <div class="page-section">
@@ -27,14 +27,14 @@
     @endif
     @endforeach
     @endif
-    <form method="post" action="{{ route('devices.import') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('assets.import') }}" enctype="multipart/form-data">
         @csrf
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <label for="tf1">Chọn file<abbr name="Trường bắt buộc">*</abbr></label>
-                        <input name="importData" type="file" class="form-control" id="" placeholder="Nhập tên thiết bị"
+                        <input name="importData" type="file" class="form-control" id="" placeholder="Nhập tên Tài Sản"
                             accept=".xls, .xlsx" />
                         <small id="" class="form-text text-muted"></small>
                         @error('importData')
@@ -54,7 +54,7 @@
                         <div class="form-check mt-4">
                             <label for="tf1" class='mr-4'>Tải dữ liệu mẫu : <abbr
                                     name="Trường bắt buộc">*</abbr></label>
-                            <a href="{{ asset('storage/sample/device.xlsx') }}">Mẫu thiết bị.xlsx</a>
+                            <a href="{{ asset('storage/sample/asset.xlsx') }}">Mẫu Tài Sản.xlsx</a>
                         </div>
                     </div>
                 </div>
