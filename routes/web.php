@@ -170,3 +170,8 @@ Route::prefix('departments')->group(function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('departments',\App\Http\Controllers\DepartmentController::class);
 });
+
+//FullCalender
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('fullcalendar',[\App\Http\Controllers\CalendarController::class,'index'])->name('calender.index');
+});
