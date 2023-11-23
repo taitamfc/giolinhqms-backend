@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             OptionSeeder::class,
             ClassifySeeder::class,
             DeviceTypeSeeder::class,
+            DepartmentSeeder::class,
             DeviceSeeder::class
         ]);
     }

@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Borrow;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsersImport;
+use App\Exports\UsersExport;
 
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
@@ -173,5 +174,9 @@ class UserController extends Controller
         } catch (Exception $e) {
             return redirect()->route('users.getImport')->with('error', 'Thêm thất bại');
         }
+    }
+    
+    function export(){
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

@@ -6,20 +6,23 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ClassifySeeder extends Seeder
+class DepartmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('classify')->insert([
+        $options = [
             [
-                'name' => 'Thiết bị',
+                'name' 	=> 'Toán'
             ],
             [
-                'name' => 'Tài sản',
-            ],
-        ]);
+                'name' 	=> 'Văn',
+            ]
+        ];
+        foreach ($options as $option) {
+            DB::table('departments')->insert($option);
+        }
     }
 }

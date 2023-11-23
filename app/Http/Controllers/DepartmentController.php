@@ -11,6 +11,7 @@ use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\ImportDepartmentsRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\DepartmentsImport;
+use App\Exports\DepartmentExport;
 
 class DepartmentController extends Controller
 {
@@ -115,5 +116,9 @@ class DepartmentController extends Controller
         } catch (Exception $e) {
             return redirect()->route('departments.getImport')->with('error', 'Thêm thất bại');
         }
+    }
+
+    function export(){
+        return Excel::download(new DepartmentExport, 'departments.xlsx');
     }
 }

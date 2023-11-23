@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateAssetRequest;
 // use import & validate excel
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\AssetImport;
+use App\Exports\AssetsExport;
 use App\Http\Requests\ImportAssetRequest;
 
 //use model
@@ -186,5 +187,8 @@ class AssetController extends Controller
         } catch (Exception $e) {
             return redirect()->route('assets.getImport')->with('error', 'Thêm thất bại');
         }
+    }
+    function export(){
+        return Excel::download(new AssetsExport, 'Assets.xlsx');
     }
 }

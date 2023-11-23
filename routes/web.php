@@ -41,6 +41,7 @@ Route::prefix('users')->group(function () {
     Route::delete('/force_destroy/{id}', [UserController::class, 'force_destroy'])->name('users.force_destroy');
     Route::get('/getImport', [UserController::class, 'getImport'])->name('users.getImport');
     Route::post('/import', [UserController::class, 'import'])->name('users.import');
+    Route::get('/export', [UserController::class, 'export'])->name('users.export');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users',\App\Http\Controllers\UserController::class);
@@ -49,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 //Device
 Route::prefix('devices')->group(function () {
+    Route::get('/export', [\App\Http\Controllers\DeviceController::class, 'export'])->name('devices.export');
     Route::get('/getImport', [\App\Http\Controllers\DeviceController::class, 'getImport'])->name('devices.getImport');
     Route::post('/import', [\App\Http\Controllers\DeviceController::class, 'import'])->name('devices.import');
     Route::get('/trash', [\App\Http\Controllers\DeviceController::class, 'trash'])->name('devices.trash');
@@ -61,6 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 //Asset
 Route::prefix('assets')->group(function () {
+    Route::get('/export', [\App\Http\Controllers\AssetController::class, 'export'])->name('assets.export');
     Route::get('/getImport', [\App\Http\Controllers\AssetController::class, 'getImport'])->name('assets.getImport');
     Route::post('/import', [\App\Http\Controllers\AssetController::class, 'import'])->name('assets.import');
     Route::get('/trash', [\App\Http\Controllers\AssetController::class, 'trash'])->name('assets.trash');
@@ -134,6 +137,7 @@ Route::get('test',[\App\Http\Controllers\ManageDeviceController::class,'testHTML
 
 // DeviceType
 Route::prefix('devicetypes')->group(function () {
+    Route::get('/export', [\App\Http\Controllers\DeviceTypeController::class, 'export'])->name('devicetypes.export');
     Route::get('/getImport', [\App\Http\Controllers\DeviceTypeController::class, 'getImport'])->name('devicetypes.getImport');
     Route::post('/import', [\App\Http\Controllers\DeviceTypeController::class, 'import'])->name('devicetypes.import');
     Route::get('/trash', [\App\Http\Controllers\DeviceTypeController::class, 'trash'])->name('devicetypes.trash');
@@ -145,6 +149,7 @@ Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class)
 
 // Nest
 Route::prefix('nests')->group(function () {
+    Route::get('/export', [\App\Http\Controllers\NestController::class, 'export'])->name('nests.export');
     Route::get('/getImport', [\App\Http\Controllers\NestController::class, 'getImport'])->name('nests.getImport');
     Route::post('/import', [\App\Http\Controllers\NestController::class, 'import'])->name('nests.import');
     Route::get('/trash', [\App\Http\Controllers\NestController::class, 'trash'])->name('nests.trash');
@@ -161,6 +166,7 @@ Route::prefix('options')->group(function () {
 
 // Departments
 Route::prefix('departments')->group(function () {
+    Route::get('/export', [\App\Http\Controllers\DepartmentController::class, 'export'])->name('departments.export');
     Route::get('/getImport', [\App\Http\Controllers\DepartmentController::class, 'getImport'])->name('departments.getImport');
     Route::post('/import', [\App\Http\Controllers\DepartmentController::class, 'import'])->name('departments.import');
     Route::get('/trash', [\App\Http\Controllers\DepartmentController::class, 'trash'])->name('departments.trash');
@@ -169,4 +175,9 @@ Route::prefix('departments')->group(function () {
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('departments',\App\Http\Controllers\DepartmentController::class);
+});
+
+//FullCalender
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('fullcalendar',[\App\Http\Controllers\CalendarController::class,'index'])->name('calender.index');
 });

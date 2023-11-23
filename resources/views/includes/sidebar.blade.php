@@ -129,6 +129,15 @@
                             </li>
                         </ul><!-- /child menu -->
                     </li>
+                    <!-- <li class="menu-item has-child">
+                        <a href="#" class="menu-link"> <span class="menu-icon"><i class="fa-regular fa-calendar-days"></i></span>
+                            <span class="menu-text">Quản Lý Lịch</span></a> 
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <a href="{{ route('calender.index') }}" class="menu-link">Lịch mượn</a>
+                            </li>
+                        </ul>
+                    </li> -->
                     <li class="menu-item has-child">
                         <a href="#" class="menu-link"> <span class="menu-icon"><i class="fas fa-book"></i></span>
                             <span class="menu-text">Quản Lý Thiết Bị Mượn</span></a> <!-- child menu -->

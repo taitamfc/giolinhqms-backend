@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 // use import & validate excel
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\NestImport;
+use App\Exports\NestExport;
 use App\Http\Requests\ImportNestRequest;
 
 class NestController extends Controller
@@ -136,5 +137,9 @@ class NestController extends Controller
         } catch (Exception $e) {
             return redirect()->route('nests.getImport')->with('error', 'Thêm thất bại');
         }
+    }
+
+    function export(){
+        return Excel::download(new NestExport, 'nests.xlsx');
     }
 }

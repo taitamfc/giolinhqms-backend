@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\DeviceTypeImport;
+use App\Exports\DeviceTypeExport;
 
 class DeviceTypeController extends Controller
 {
@@ -135,5 +136,8 @@ class DeviceTypeController extends Controller
         } catch (Exception $e) {
             return redirect()->route('devicetypes.getImport')->with('error', 'Thêm thất bại');
         }
+    }
+    function export(){
+        return Excel::download(new DeviceTypeExport, 'devicetypes.xlsx');
     }
 }
