@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 // use import & validate excel
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\DeviceImport;
+use App\Exports\DevicesExport;
+
 use App\Http\Requests\ImportDeviceRequest;
 
 class DeviceController extends Controller
@@ -164,5 +166,9 @@ class DeviceController extends Controller
         } catch (Exception $e) {
             return redirect()->route('devices.getImport')->with('error', 'Thêm thất bại');
         }
+    }
+
+    function export(){
+        return Excel::download(new DevicesExport, 'devices.xlsx');
     }
 }
