@@ -7,8 +7,10 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class AssetsExport implements FromCollection,WithHeadings,WithMapping, ShouldAutoSize
+class AssetsExport implements FromCollection,WithHeadings,WithMapping, ShouldAutoSize, WithStyles
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -30,8 +32,12 @@ class AssetsExport implements FromCollection,WithHeadings,WithMapping, ShouldAut
             "Loại thiết bị",
             "Bộ môn",
             "Phân loại",
-            
         ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        $sheet->getStyle('A1:K1')->getFont()->setBold(true);
     }
  
     public function map($user): array {

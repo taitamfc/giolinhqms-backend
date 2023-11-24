@@ -189,6 +189,6 @@ class AssetController extends Controller
         }
     }
     function export(){
-        return Excel::download(new AssetsExport, 'Assets.xlsx');
+        return Excel::download(new AssetsExport, 'assets.xlsx');
     }
 }

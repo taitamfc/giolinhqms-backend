@@ -7,8 +7,10 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class UsersExport implements FromCollection,WithHeadings,WithMapping, ShouldAutoSize
+class UsersExport implements FromCollection,WithHeadings,WithMapping, ShouldAutoSize, WithStyles
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -30,6 +32,11 @@ class UsersExport implements FromCollection,WithHeadings,WithMapping, ShouldAuto
             "Tổ",
             
         ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        $sheet->getStyle('A1:I1')->getFont()->setBold(true);
     }
  
     public function map($user): array {
