@@ -52,7 +52,7 @@ class AssetsExport implements FromCollection,WithHeadings,WithMapping, ShouldAut
             $user->note,
             $user->devicetype->name,
             $user->department->name,
-            $user->classify->name,
+            $user->type,
         ];
     }
 }

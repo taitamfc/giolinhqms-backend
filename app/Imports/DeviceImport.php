@@ -5,7 +5,6 @@ namespace App\Imports;
 use App\Models\Device;
 use App\Models\DeviceType;
 use App\Models\Department;
-use App\Models\Classify;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -25,17 +24,6 @@ class DeviceImport implements ToCollection
         }else {
             $data['name'] = $name;
             $item = DeviceType::create($data);
-            return $item->id;
-        }
-    }
-    function getClassify($name)
-    {
-        $classify = Classify::where('name', 'LIKE' , '%'.$name.'%')->first();
-        if ($classify) {
-            return $classify->id;
-        }else {
-            $data['name'] = $name;
-            $item = Classify::create($data);
             return $item->id;
         }
     }
@@ -82,7 +70,7 @@ class DeviceImport implements ToCollection
                 'note'=>$row[7],
                 'device_type_id'=>$this->getDeviceType($row[8]),
                 'department_id'=>$this->getDepartmant($row[9]),
-                'classify_id'=>$this->getClassify($row[10]),
+                'type'=>$row[10],
             ]);
         }
     }

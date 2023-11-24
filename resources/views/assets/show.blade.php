@@ -51,7 +51,7 @@
                             </tr>
                             <tr>
                                 <td> Phân Loại </td>
-                                <td> {{ $item->classify->name }} </td>
+                                <td> {{ $item->type }} </td>
                             </tr>
                             <tr>
                                 <td> Loại thiết bị </td>

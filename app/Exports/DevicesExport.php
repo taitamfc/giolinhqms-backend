@@ -53,7 +53,7 @@ class DevicesExport implements FromCollection,WithHeadings,WithMapping, ShouldAu
             $user->note,
             $user->devicetype->name,
             $user->department->name,
-            $user->classify->name,
+            $user->type,
         ];
     }
 }

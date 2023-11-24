@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('country')->nullable();
-            $table->string('year_born')->nullable();
+            $table->string('year')->nullable();
             $table->integer('quantity');
             $table->string('unit')->nullable();
             $table->string('price')->nullable();
@@ -25,8 +25,7 @@ return new class extends Migration
             $table->foreign('device_type_id')->references('id')->on('device_types');
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');
-            $table->unsignedBigInteger('classify_id')->nullable();
-            $table->foreign('classify_id')->references('id')->on('classify');
+            $table->string('type')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
