@@ -31,7 +31,6 @@ class AssetsExport implements FromCollection,WithHeadings,WithMapping, ShouldAut
             "Ghi chú",
             "Loại thiết bị",
             "Bộ môn",
-            "Phân loại",
         ];
     }
 
@@ -52,7 +51,6 @@ class AssetsExport implements FromCollection,WithHeadings,WithMapping, ShouldAut
             $user->note,
             $user->devicetype->name,
             $user->department->name,
-            $user->type,
         ];
     }
 }

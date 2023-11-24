@@ -24,7 +24,6 @@ class DeviceSeeder extends Seeder
                 'year' => 1990,
                 'unit' => 'Cái',
                 'note' => 10,
-                'type' => 'Thiết bị',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

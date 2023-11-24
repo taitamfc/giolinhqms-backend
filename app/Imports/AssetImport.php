@@ -48,7 +48,6 @@ class AssetImport implements ToCollection
             '*.4' => 'required|numeric',
             '*.8' => 'required',
             '*.9' => 'required',
-            '*.10' => 'required',
         ],[
             '*.1.required' => 'Tên tài sản hàng :attribute là bắt buộc.',
             '*.1.unique' => 'Tên tài sản hàng :attribute đã tồn tại.',
@@ -56,7 +55,6 @@ class AssetImport implements ToCollection
             '*.4.numeric' => 'Số lượng hàng :attribute phải là một số.',
             '*.8.required' => 'Thể loại hàng :attribute tài sản là bắt buộc.',
             '*.9.required' => 'Bộ môn là hàng :attribute bắt buộc.',
-            '*.10.required' => 'Phân loại hàng :attribute là bắt buộc.',
         ])->validate();
 
         foreach ($rows as $row) {
@@ -70,7 +68,6 @@ class AssetImport implements ToCollection
                 'note'=>$row[7],
                 'device_type_id'=>$this->getDeviceType($row[8]),
                 'department_id'=>$this->getDepartmant($row[9]),
-                'type'=>$row[10],
             ]);
         }
     }

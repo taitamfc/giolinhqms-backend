@@ -31,8 +31,6 @@ class DevicesExport implements FromCollection,WithHeadings,WithMapping, ShouldAu
             "Ghi chú",
             "Loại thiết bị",
             "Bộ môn",
-            "Phân loại",
-            
         ];
     }
  
@@ -53,7 +51,6 @@ class DevicesExport implements FromCollection,WithHeadings,WithMapping, ShouldAu
             $user->note,
             $user->devicetype->name,
             $user->department->name,
-            $user->type,
         ];
     }
 }
