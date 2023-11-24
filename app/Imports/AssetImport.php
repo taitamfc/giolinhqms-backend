@@ -63,7 +63,7 @@ class AssetImport implements ToCollection
             Asset::create([
                 'name' => $row[1],
                 'country'=>$row[2],
-                'year_born'=>$row[3],
+                'year'=>$row[3],
                 'quantity'=>$row[4],
                 'unit'=>$row[5],
                 'price'=>$row[6],

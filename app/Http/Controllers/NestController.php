@@ -140,6 +140,10 @@ class NestController extends Controller
     }
 
     function export(){
-        return Excel::download(new NestExport, 'nests.xlsx');
+        try{
+            return Excel::download(new NestExport, 'nests.xlsx');
+        } catch (Exception $e) {
+            return redirect()->route('nests.index')->with('error', 'Xuất excel thất bại');
+        }
     }
 }

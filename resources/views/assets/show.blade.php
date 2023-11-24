@@ -59,7 +59,7 @@
                             </tr>
                             <tr>
                                 <td> Năm sản xuất </td>
-                                <td> {{ $item->year_born }} </td>
+                                <td> {{ $item->year }} </td>
                             </tr>
                             <tr>
                                 <td> Đơn vị </td>

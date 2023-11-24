@@ -177,6 +177,10 @@ class UserController extends Controller
     }
     
     function export(){
-        return Excel::download(new UsersExport, 'users.xlsx');
+        try {
+            return Excel::download(new UsersExport, 'users.xlsx');
+        } catch (Exception $e) {
+            return redirect()->route('users.index')->with('error', 'Xuất excel thất bại');
+        }
     }
 }

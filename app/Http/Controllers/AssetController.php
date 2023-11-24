@@ -188,6 +188,10 @@ class AssetController extends Controller
         }
     }
     function export(){
-        return Excel::download(new AssetsExport, 'assets.xlsx');
+        try {
+            return Excel::download(new AssetsExport, 'assets.xlsx');
+        } catch (Exception $e) {
+            return redirect()->route('assets.index')->with('error', 'Xuất excel thất bại');
+        }
     }
 }
