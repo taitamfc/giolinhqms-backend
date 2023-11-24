@@ -30,7 +30,6 @@ class DatabaseSeeder extends Seeder
             GroupRoleSeeder::class,
             BorrowDevicesSeeder::class,
             OptionSeeder::class,
-            ClassifySeeder::class,
             DeviceTypeSeeder::class,
             DepartmentSeeder::class,
             DeviceSeeder::class

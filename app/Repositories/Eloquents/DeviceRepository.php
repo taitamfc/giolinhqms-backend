@@ -36,7 +36,7 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         $filter = (object)$request->filter;
         $limit = !empty($filter->limit) ? $filter->limit : 20;
 
-        $query = $this->model->orderBy('id', 'DESC')->with('devicetype','department','classify');
+        $query = $this->model->orderBy('id', 'DESC')->with('devicetype','department');
         if(isset($filter->searchQuantity) && $filter->searchQuantity !== null){
             if($filter->searchQuantity  == 1){
                 $query->where('quantity','>',0);

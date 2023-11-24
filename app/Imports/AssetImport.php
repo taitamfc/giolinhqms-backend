@@ -5,7 +5,6 @@ namespace App\Imports;
 use App\Models\Asset;
 use App\Models\DeviceType;
 use App\Models\Department;
-use App\Models\Classify;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -25,17 +24,6 @@ class AssetImport implements ToCollection
         }else {
             $data['name'] = $name;
             $item = DeviceType::create($data);
-            return $item->id;
-        }
-    }
-    function getClassify($name)
-    {
-        $classify = Classify::where('name', 'LIKE' , '%'.$name.'%')->first();
-        if ($classify) {
-            return $classify->id;
-        }else {
-            $data['name'] = $name;
-            $item = Classify::create($data);
             return $item->id;
         }
     }
@@ -75,14 +63,14 @@ class AssetImport implements ToCollection
             Asset::create([
                 'name' => $row[1],
                 'country'=>$row[2],
-                'year_born'=>$row[3],
+                'year'=>$row[3],
                 'quantity'=>$row[4],
                 'unit'=>$row[5],
                 'price'=>$row[6],
                 'note'=>$row[7],
                 'device_type_id'=>$this->getDeviceType($row[8]),
                 'department_id'=>$this->getDepartmant($row[9]),
-                'classify_id'=>$this->getClassify($row[10]),
+                'type'=>$row[10],
             ]);
         }
     }

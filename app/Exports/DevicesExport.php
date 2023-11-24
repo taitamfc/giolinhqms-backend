@@ -17,7 +17,7 @@ class DevicesExport implements FromCollection,WithHeadings,WithMapping, ShouldAu
     */
     public function collection()
     {
-        return Device::with('devicetype','department','classify')->get();
+        return Device::with('devicetype','department')->get();
     }
     public function headings(): array {
         return [
@@ -46,14 +46,14 @@ class DevicesExport implements FromCollection,WithHeadings,WithMapping, ShouldAu
             $user->id,
             $user->name,
             $user->country,
-            $user->year_born,
+            $user->year,
             $user->quantity,
             $user->unit,
             $user->price,
             $user->note,
             $user->devicetype->name,
             $user->department->name,
-            $user->classify->name,
+            $user->type,
         ];
     }
 }

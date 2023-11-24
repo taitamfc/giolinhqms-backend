@@ -30,7 +30,7 @@ class AssetController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', Asset::class);
-        $query = Asset::orderBy('id', 'DESC')->with('devicetype','department','classify');
+        $query = Asset::orderBy('id', 'DESC')->with('devicetype','department');
         if(isset($request->searchQuantity) && $request->searchQuantity !== null){
             if($request->searchQuantity  == 2){
                 $query->where('quantity','>',0);
@@ -72,7 +72,6 @@ class AssetController extends Controller
     public function store(StoreAssetRequest $request)
     {
         $data = $request->except(['_token', '_method']);
-        $data['classify_id'] = 2;
         Asset::create($data);
         return redirect()->route('assets.index')->with('success', 'Thêm tài sản thành công');
     }
@@ -189,6 +188,10 @@ class AssetController extends Controller
         }
     }
     function export(){
-        return Excel::download(new AssetsExport, 'assets.xlsx');
+        try {
+            return Excel::download(new AssetsExport, 'assets.xlsx');
+        } catch (Exception $e) {
+            return redirect()->route('assets.index')->with('error', 'Xuất excel thất bại');
+        }
     }
 }

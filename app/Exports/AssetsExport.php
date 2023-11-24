@@ -17,7 +17,7 @@ class AssetsExport implements FromCollection,WithHeadings,WithMapping, ShouldAut
     */
     public function collection()
     {
-        return Asset::with('devicetype','department','classify')->get();
+        return Asset::with('devicetype','department')->get();
     }
     public function headings(): array {
         return [
@@ -45,14 +45,14 @@ class AssetsExport implements FromCollection,WithHeadings,WithMapping, ShouldAut
             $user->id,
             $user->name,
             $user->country,
-            $user->year_born,
+            $user->year,
             $user->quantity,
             $user->unit,
             $user->price,
             $user->note,
             $user->devicetype->name,
             $user->department->name,
-            $user->classify->name,
+            $user->type,
         ];
     }
 }

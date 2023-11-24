@@ -169,6 +169,10 @@ class DeviceController extends Controller
     }
 
     function export(){
-        return Excel::download(new DevicesExport, 'devices.xlsx');
+        try {
+            return Excel::download(new DevicesExport, 'devices.xlsx');
+        } catch (Exception $e) {
+            return redirect()->route('devices.index')->with('error', 'Xuất excel thất bại');
+        }
     }
 }

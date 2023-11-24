@@ -119,6 +119,10 @@ class DepartmentController extends Controller
     }
 
     function export(){
-        return Excel::download(new DepartmentExport, 'departments.xlsx');
+        try{
+            return Excel::download(new DepartmentExport, 'departments.xlsx');
+        } catch (Exception $e) {
+            return redirect()->route('departments.index')->with('error', 'Xuất excel thất bại');
+        }
     }
 }

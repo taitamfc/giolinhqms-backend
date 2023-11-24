@@ -51,7 +51,7 @@
                             </tr>
                             <tr>
                                 <td> Phân Loại </td>
-                                <td> {{ $item->classify->name }} </td>
+                                <td> {{ $item->type }} </td>
                             </tr>
                             <tr>
                                 <td> Loại thiết bị </td>
@@ -59,7 +59,7 @@
                             </tr>
                             <tr>
                                 <td> Năm sản xuất </td>
-                                <td> {{ $item->year_born }} </td>
+                                <td> {{ $item->year }} </td>
                             </tr>
                             <tr>
                                 <td> Đơn vị </td>

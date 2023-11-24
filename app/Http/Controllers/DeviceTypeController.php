@@ -138,6 +138,10 @@ class DeviceTypeController extends Controller
         }
     }
     function export(){
-        return Excel::download(new DeviceTypeExport, 'devicetypes.xlsx');
+        try {
+            return Excel::download(new DeviceTypeExport, 'devicetypes.xlsx');
+        } catch (Exception $e) {
+            return redirect()->route('devicetypes.index')->with('error', 'Xuất excel thất bại');
+        }
     }
 }
