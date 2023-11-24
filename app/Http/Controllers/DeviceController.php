@@ -60,6 +60,7 @@ class DeviceController extends Controller
     {
 
         $data = $request->except(['_token', '_method']);
+        $data['type'] = 'Thiết bị';
         $this->deviceService->store($data);
         return redirect()->route('devices.index')->with('success', 'Thêm thiết bị thành công');
     }

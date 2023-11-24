@@ -34,11 +34,11 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="tf1">Năm sản xuât <abbr name="Trường bắt buộc">*</abbr></label> <input name="year_born"
-                        type="number" value="{{ old('year_born') }}" class="form-control" id=""
+                    <label for="tf1">Năm sản xuât <abbr name="Trường bắt buộc">*</abbr></label> <input name="year"
+                        type="number" value="{{ old('year') }}" class="form-control" id=""
                         placeholder="Nhập năm sản xuất">
                     <small id="" class="form-text text-muted"></small>
-                    @error('year_born')
+                    @error('year')
                     <p style="color:red">{{ $message }}</p>
                     @enderror
                 </div>
