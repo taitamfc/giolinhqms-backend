@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('year')->nullable();
             $table->string('unit')->nullable();
             $table->string('note')->nullable();
-            $table->string('type')->nullable();
         });
     }
 

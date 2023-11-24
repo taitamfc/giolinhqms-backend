@@ -10,7 +10,7 @@ class Asset extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'assets';
-    protected $fillable = ['id','device_type_id','name', 'quantity','image','department_id','price','country','year','unit','note','type'];
+    protected $fillable = ['id','device_type_id','name', 'quantity','image','department_id','price','country','year','unit','note'];
     public function devicetype()
     {
         return $this->belongsTo(DeviceType::class,'device_type_id','id');

@@ -25,7 +25,6 @@ return new class extends Migration
             $table->foreign('device_type_id')->references('id')->on('device_types');
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');
-            $table->string('type')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

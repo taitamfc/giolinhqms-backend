@@ -72,7 +72,6 @@ class AssetController extends Controller
     public function store(StoreAssetRequest $request)
     {
         $data = $request->except(['_token', '_method']);
-        $data['type'] = 'Tài sản';
         Asset::create($data);
         return redirect()->route('assets.index')->with('success', 'Thêm tài sản thành công');
     }

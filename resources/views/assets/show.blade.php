@@ -50,10 +50,6 @@
                                 <td> {{ $item->department->name }} </td>
                             </tr>
                             <tr>
-                                <td> Phân Loại </td>
-                                <td> {{ $item->type }} </td>
-                            </tr>
-                            <tr>
                                 <td> Loại thiết bị </td>
                                 <td> {{ $item->price }} </td>
                             </tr>
