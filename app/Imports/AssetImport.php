@@ -20,18 +20,36 @@ class AssetImport implements ToCollection
     function getDeviceType($name)
     {
         $deviceType = DeviceType::where('name', 'LIKE' , '%'.$name.'%')->first();
-        return $deviceType ? $deviceType->id : 'null';
+        if ($deviceType) {
+            return $deviceType->id;
+        }else {
+            $data['name'] = $name;
+            $item = DeviceType::create($data);
+            return $item->id;
+        }
     }
     function getClassify($name)
     {
         $classify = Classify::where('name', 'LIKE' , '%'.$name.'%')->first();
-        return $classify ? $classify->id : 'null';
+        if ($classify) {
+            return $classify->id;
+        }else {
+            $data['name'] = $name;
+            $item = Classify::create($data);
+            return $item->id;
+        }
     }
 
     function getDepartmant($name)
     {
         $department = Department::where('name', 'LIKE' , '%'.$name.'%')->first();
-        return $department ? $department->id : 'null';
+        if ($department) {
+            return $department->id;
+        }else {
+            $data['name'] = $name;
+            $item = Department::create($data);
+            return $item->id;
+        }
     }
     
     public function collection(Collection $rows)
