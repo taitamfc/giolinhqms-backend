@@ -21,16 +21,21 @@ class NestImport implements ToCollection
 
         // bỏ qua nếu teen trùng
         Validator::make($rows->toArray(), [
-            '*.1' => 'required|unique:nests,name',
+            '*.1' => 'required',
         ],[
             '*.1.required' => 'Loại thiết bị hàng :attribute là bắt buộc.',
-            '*.1.unique' => 'Loại thiết bị hàng :attribute đã tồn tại.',
         ])->validate();
 
         foreach ($rows as $row) {
-            Nest::create([
+            $data = [
                 'name' => $row[1],
-            ]);
+            ];
+            $item = Nest::where('name', 'LIKE', $data['name'])->first();
+            if ($item) {
+                $item->update($data);
+            }else {
+                Nest::create($data);
+            }
         }
     }
 }

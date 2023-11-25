@@ -50,7 +50,7 @@ class UsersImport implements ToCollection
         $rows->pop();
         Validator::make($rows->toArray(), [
             '*.1' => 'required',
-            '*.2' => 'required|unique:users,email',
+            '*.2' => 'required',
             '*.3' => 'required',
             '*.4' => 'required',
             '*.5' => 'required',
@@ -59,7 +59,6 @@ class UsersImport implements ToCollection
         ],[
             '*.1.required' => 'Tên người dùng :attribute là bắt buộc.',
             '*.2.required' => 'Email người dùng :attribute là bắt buộc.',
-            '*.2.unique' => 'Email người dùng :attribute đã tồn tại.',
             '*.3.required' => 'Mật khẩu người dùng :attribute là bắt buộc.',
             '*.4.required' => 'Địa chỉ người dùng :attribute là bắt buộc.',
             '*.5.required' => 'Số điện thoại người dùng :attribute là bắt buộc.',
@@ -68,7 +67,7 @@ class UsersImport implements ToCollection
         ])->validate();
 
         foreach ($rows as $row) {
-            User::create([
+            $data = [
                 'name'=>$row[1],
                 'email'=>$row[2], 
                 'password'=>Hash::make($row[3]),
@@ -78,7 +77,13 @@ class UsersImport implements ToCollection
                 'birthday' => date('Y-m-d', strtotime($row[7])),
                 'group_id'=>$this->getGroup($row[8]), 
                 'nest_id'=>$this->getNest($row[9]), 
-            ]);
+            ];
+            $item = User::where('email', 'LIKE', $data['email'])->first();
+            if ($item) {
+                $item->update($data);
+            }else {
+                User::create($data);
+            }
         }
     }
 }
