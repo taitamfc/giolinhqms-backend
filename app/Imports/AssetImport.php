@@ -44,13 +44,12 @@ class AssetImport implements ToCollection
     {
         $rows->shift();
         Validator::make($rows->toArray(), [
-            '*.1' => 'required|unique:assets,name',
+            '*.1' => 'required',
             '*.4' => 'required|numeric',
             '*.8' => 'required',
             '*.9' => 'required',
         ],[
             '*.1.required' => 'Tên tài sản hàng :attribute là bắt buộc.',
-            '*.1.unique' => 'Tên tài sản hàng :attribute đã tồn tại.',
             '*.4.required' => 'Số lượng hàng :attribute là bắt buộc.',
             '*.4.numeric' => 'Số lượng hàng :attribute phải là một số.',
             '*.8.required' => 'Thể loại hàng :attribute tài sản là bắt buộc.',
@@ -58,7 +57,7 @@ class AssetImport implements ToCollection
         ])->validate();
 
         foreach ($rows as $row) {
-            Asset::create([
+            $data = [
                 'name' => $row[1],
                 'country'=>$row[2],
                 'year'=>$row[3],
@@ -68,7 +67,13 @@ class AssetImport implements ToCollection
                 'note'=>$row[7],
                 'device_type_id'=>$this->getDeviceType($row[8]),
                 'department_id'=>$this->getDepartmant($row[9]),
-            ]);
+            ];
+            $item = Asset::where('name', 'LIKE', $data['name'])->first();
+            if ($item) {
+                $item->update($data);
+            }else {
+                Asset::create($data);
+            }
         }
     }
 }

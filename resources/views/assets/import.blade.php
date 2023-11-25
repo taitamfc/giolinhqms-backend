@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <a class="btn btn-secondary float-right" href="{{ route('devices.index') }}">Hủy</a>
+                    <a class="btn btn-secondary float-right" href="{{ route('assets.index') }}">Hủy</a>
                     <button class="btn btn-primary ml-auto" type="submit">Lưu</button>
                 </div>
             </div>

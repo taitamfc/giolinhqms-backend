@@ -22,16 +22,21 @@ class DepartmentsImport implements ToCollection
 
         // bỏ qua nếu teen trùng
         Validator::make($rows->toArray(), [
-            '*.1' => 'required|unique:departments,name',
+            '*.1' => 'required',
         ],[
             '*.1.required' => 'Bộ môn hàng :attribute là bắt buộc.',
-            '*.1.unique' => 'Bộ môn hàng :attribute đã tồn tại.',
         ])->validate();
 
         foreach ($rows as $row) {
-            Department::create([
+            $data = [
                 'name' => $row[1],
-            ]);
+            ];
+            $item = Department::where('name', 'LIKE', $data['name'])->first();
+            if ($item) {
+                $item->update($data);
+            }else {
+                Department::create($data);
+            }
         }
     }
 }
