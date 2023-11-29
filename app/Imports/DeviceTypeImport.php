@@ -28,10 +28,11 @@ class DeviceTypeImport implements ToCollection
 
         foreach ($rows as $row) {
             $data = [
-                'name' => $row[1],
+                'name' => trim($row[1]),
             ];
-            $item = DeviceType::where('name', 'LIKE', $data['name'])->first();
+            $item = DeviceType::withTrashed()->where('name',$data['name'])->first();
             if ($item) {
+                $item->restore();
                 $item->update($data);
             }else {
                 DeviceType::create($data);

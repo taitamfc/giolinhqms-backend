@@ -25,13 +25,14 @@ class NestImport implements ToCollection
         ],[
             '*.1.required' => 'Loại thiết bị hàng :attribute là bắt buộc.',
         ])->validate();
-
+        
         foreach ($rows as $row) {
             $data = [
-                'name' => $row[1],
+                'name' => trim($row[1]),
             ];
-            $item = Nest::where('name', 'LIKE', $data['name'])->first();
+            $item = Nest::withTrashed()->where('name',$data['name'])->first();
             if ($item) {
+                $item->restore();
                 $item->update($data);
             }else {
                 Nest::create($data);

@@ -26,13 +26,17 @@ class DepartmentsImport implements ToCollection
         ],[
             '*.1.required' => 'Bộ môn hàng :attribute là bắt buộc.',
         ])->validate();
-
+        
         foreach ($rows as $row) {
+            foreach( $row as $k => $v ){
+                $row[$k] = trim($v);
+            }
             $data = [
                 'name' => $row[1],
             ];
-            $item = Department::where('name', 'LIKE', $data['name'])->first();
+            $item = Department::withTrashed()->where('name',$data['name'])->first();
             if ($item) {
+                $item->restore();
                 $item->update($data);
             }else {
                 Department::create($data);

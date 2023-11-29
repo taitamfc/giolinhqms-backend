@@ -57,9 +57,12 @@ class DeviceImport implements ToCollection
         ])->validate();
 
         foreach ($rows as $row) {
+            foreach( $row as $k => $v ){
+                $row[$k] = trim($v);
+            }
             $data = [
                 'name' => $row[1],
-                'country'=>$row[2],
+                'country_name'=>$row[2],
                 'year'=>$row[3],
                 'quantity'=>$row[4],
                 'unit'=>$row[5],
@@ -68,8 +71,9 @@ class DeviceImport implements ToCollection
                 'device_type_id'=>$this->getDeviceType($row[8]),
                 'department_id'=>$this->getDepartmant($row[9]),
             ];
-            $item = Device::where('name', 'LIKE', $data['name'])->first();
+            $item = Device::withTrashed()->where('name',$data['name'])->first();
             if ($item) {
+                $item->restore();
                 $item->update($data);
             }else {
                 Device::create($data);

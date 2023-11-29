@@ -55,8 +55,11 @@ class AssetImport implements ToCollection
             '*.8.required' => 'Thể loại hàng :attribute tài sản là bắt buộc.',
             '*.9.required' => 'Bộ môn là hàng :attribute bắt buộc.',
         ])->validate();
-
+        
         foreach ($rows as $row) {
+            foreach( $row as $k => $v ){
+                $row[$k] = trim($v);
+            }
             $data = [
                 'name' => $row[1],
                 'country'=>$row[2],
@@ -68,8 +71,9 @@ class AssetImport implements ToCollection
                 'device_type_id'=>$this->getDeviceType($row[8]),
                 'department_id'=>$this->getDepartmant($row[9]),
             ];
-            $item = Asset::where('name', 'LIKE', $data['name'])->first();
+            $item = Asset::withTrashed()->where('name',$data['name'])->first();
             if ($item) {
+                $item->restore();
                 $item->update($data);
             }else {
                 Asset::create($data);

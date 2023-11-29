@@ -33,6 +33,7 @@ class User extends Authenticatable implements JWTSubject
         'birthday',
         'group_id',
         'nest_id',
+        'deleted_at',
         'token'
     ];
     protected $table = 'users';

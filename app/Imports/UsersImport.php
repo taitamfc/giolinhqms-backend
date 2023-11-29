@@ -8,7 +8,10 @@ use App\Models\Nest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Concerns\ToCollection;;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class UsersImport implements ToCollection
 {
@@ -20,7 +23,7 @@ class UsersImport implements ToCollection
     */
     function getGroup($name)
     {
-        $group = Group::where('name', 'LIKE' , '%'.$name.'%')->first();
+        $group = Group::where('name',$name)->first();
         // return $group ? $group->id : null;
         if ($group) {
             return $group->id;
@@ -32,7 +35,7 @@ class UsersImport implements ToCollection
     }
     function getNest($name)
     {
-        $nest = Nest::where('name', 'LIKE' , '%'.$name.'%')->first();
+        $nest = Nest::where('name',$name)->first();
         // return $group ? $group->id : null;
         if ($nest) {
             return $nest->id;
@@ -67,6 +70,9 @@ class UsersImport implements ToCollection
         ])->validate();
 
         foreach ($rows as $row) {
+            foreach( $row as $k => $v ){
+                $row[$k] = trim($v);
+            }
             $data = [
                 'name'=>$row[1],
                 'email'=>$row[2], 
@@ -77,10 +83,16 @@ class UsersImport implements ToCollection
                 'birthday' => date('Y-m-d', strtotime($row[7])),
                 'group_id'=>$this->getGroup($row[8]), 
                 'nest_id'=>$this->getNest($row[9]), 
+                'deleted_at'=> NULL, 
             ];
-            $item = User::where('email', 'LIKE', $data['email'])->first();
+            $item = User::withTrashed()->where('email',$data['email'])->first();
             if ($item) {
-                $item->update($data);
+                $item->restore();
+                try {
+                    $item->update($data);
+                } catch (\Exception $e) {
+                    Log::error('IMPORT USER ERROR: '.$data['email'].' '.$e->getMessage());
+                }
             }else {
                 User::create($data);
             }
