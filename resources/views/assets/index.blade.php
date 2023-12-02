@@ -20,11 +20,11 @@
             </a>
             <a href="{{ route('assets.getImport') }}" class="btn btn-primary mr-2">
                 <i class="fa-solid fa fa-arrow-down"></i>
-                <span class="ml-1">Import Excel</span>
+                <span class="ml-1">Nhập Excel</span>
             </a>
             <a href="{{ route('assets.export') }}" class="btn btn-primary mr-2">
                 <i class="fa-solid fa fa-arrow-up"></i>
-                <span class="ml-1">Export Excel</span>
+                <span class="ml-1">Xuất Excel</span>
             </a>
             @endif
         </div>

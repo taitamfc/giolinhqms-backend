@@ -31,6 +31,5 @@ class ExportBookController extends Controller
 
         $pdf = PDF::loadView('users.bookPDF.book', compact('user','borrowDevices','changeStatus','number'))->setPaper('a4', 'landscape');
         return $pdf->download('SoMuon.pdf');
- 
     }
 }

@@ -45,7 +45,6 @@ class BorrowDevicesController extends Controller
         ];
         $current_url = http_build_query($request->query());
         return view('borrowdevices.index', compact('items', 'changeStatus', 'nests', 'users', 'current_url'));
-
     }
 
     public function create()
@@ -198,7 +197,7 @@ class BorrowDevicesController extends Controller
         if( !$canExport ){
             return redirect()->route('borrowdevices.index')->with('error', 'Vui lòng chọn tổ hoặc ngày dạy từ và ngày dạy đến');
         }
-
+        // Lấy dữ liệu dựa trên yêu cầu 
         $BorrowDevices = $this->_handleQuery();
         $items = [];
         foreach( $BorrowDevices as $BorrowDevice ){
@@ -233,6 +232,7 @@ class BorrowDevicesController extends Controller
                 'lecture_name' => $item[0]->lecture_name,
                 'lesson_name' => $item[0]->lesson_name,
                 'room_name' => !empty($item[0]->room->name) ? $item[0]->room->name : '',
+                'tkb' => ($item[0]->session == 'Sáng') ? $item[0]->lecture_number : ($item[0]->lecture_number)+5,
                 'user_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->name : '',
                 'nest_name' => !empty($item[0]->borrow->user) ? $item[0]->borrow->user->nest->name : '',
                 'department' => $departmentName, // Sử dụng giá trị đơn lẻ
@@ -276,7 +276,7 @@ class BorrowDevicesController extends Controller
             $sheet->setCellValue('H' . $index, $item['lecture_name']);
             $sheet->setCellValue('I' . $index, $item['lesson_name']);
             $sheet->setCellValue('J' . $index, $item['room_name']);
-            $sheet->setCellValue('K' . $index, '');
+            $sheet->setCellValue('K' . $index, $item['tkb']);
             $sheet->getColumnDimension('L')->setWidth(50); 
             $sheet->setCellValue('L' . $index, $item['user_name']);
             

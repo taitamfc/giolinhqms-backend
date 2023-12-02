@@ -78,7 +78,7 @@
                     @if (Auth::user()->hasPermission('Asset_viewAny'))
                     <li class="menu-item has-child">
                         <a href="#" class="menu-link"><span class="menu-icon oi oi-browser"></span> <span
-                                class="menu-text">Tài sản</span> </a>
+                                class="menu-text">Tài Sản</span> </a>
                         <!-- child menu -->
                         <ul class="menu">
                             <li class="menu-item">

@@ -25,7 +25,7 @@
         <th align="center" style="font-weight: bold;" width="80px">Tên bài dạy</th>
         <th align="center" style="font-weight: bold;">Số lượng</th>
         <th align="center" style="font-weight: bold;">Buổi</th>
-        <th align="center" style="font-weight: bold;">Tiết PCCT</th>
+        <th align="center" style="font-weight: bold;">Tiết PPCT</th>
         <th align="center" style="font-weight: bold;">Lớp</th>
         <th align="center" style="font-weight: bold;">Tiết TKB</th>
         <th align="center" style="font-weight: bold;" width="80px">Trạng thái</th>
@@ -47,7 +47,6 @@
             <td align="center">{{ $changeStatus[$item->status] }}</td>
             <td align="center">{{ $item->borrow?->created_at ? $item->borrow->created_at->format('d/m/Y H:i:s') : '' }}</td>
             <td align="center">{{ $item->borrow && $item->borrow->borrow_date ?  date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không tồn tại)' }}</td>
-            
         </tr>
     @endforeach
 </table>
